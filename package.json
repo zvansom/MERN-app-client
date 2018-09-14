@@ -1,0 +1,20 @@
+{
+  "name": "MERN-app-client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/glaserbw/MERN-app-client.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/glaserbw/MERN-app-client/issues"
+  },
+  "homepage": "https://github.com/glaserbw/MERN-app-client#readme"
+}
