@@ -8,8 +8,9 @@ export default class Accordion extends Component {
     activeTab: null,
   }
 
-  handleClick = e => {
-    console.log(e.target.dataset.index)
+  handleClick = e => { 
+    const index = e.target.dataset.index;
+    this.setState({ activeTab: index === this.state.activeTab ? null : index})
   }
 
   render() {
@@ -20,7 +21,8 @@ export default class Accordion extends Component {
             handleClick={this.handleClick} 
             key={idx} 
             index={idx}
-            name={stock.name} 
+            name={stock.name}
+            activeTab={this.state.activeTab}
           />) )}
       </AccordionWrapper>
     )
