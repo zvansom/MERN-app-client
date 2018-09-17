@@ -1,4 +1,4 @@
-const Top100 = [
+export const Top100 = [
   { name: 'Activision Blizzard',
     symbol: 'ATVI' },
   { name: 'Adobe Systems Incorporated',
