@@ -9,26 +9,41 @@ export default class Accordion extends Component {
   }
 
   handleClick = e => { 
+    console.log('Accordion clicked!')
+    console.log(e.target)
     const index = e.target.dataset.index;
     this.setState({ activeTab: index === this.state.activeTab ? null : index})
   }
 
   render() {
     return (
-      <AccordionWrapper>
-        {Top100.map((stock, idx) => (
-          <StockList 
-            handleClick={this.handleClick} 
-            key={idx} 
-            index={idx}
-            name={stock.name}
-            activeTab={this.state.activeTab}
-          />) )}
-      </AccordionWrapper>
+      <div>
+        <AccordionHeader>
+          <div>Stock Name</div>
+          <div>Current Share Value</div>
+        </AccordionHeader>
+        <AccordionWrapper>
+          {Top100.map((stock, idx) => (
+            <StockList 
+              handleClick={this.handleClick} 
+              key={idx} 
+              index={idx}
+              name={stock.name}
+              activeTab={this.state.activeTab}
+              symbol={stock.symbol}
+            />) )}
+        </AccordionWrapper>
+      </div>
     )
   }
 }
 
 const AccordionWrapper = styled.div`
-  border: 3px solid red;
+  border: 3px solid black;
+`;
+
+const AccordionHeader = styled.div`
+  display: grid;
+  grid-auto-flow: column;
+  justify-content: space-around;
 `;
