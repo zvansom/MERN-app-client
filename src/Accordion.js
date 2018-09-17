@@ -10,7 +10,6 @@ export default class Accordion extends Component {
 
   handleClick = e => { 
     console.log('Accordion clicked!')
-    console.log(e.target)
     const index = e.target.dataset.index;
     this.setState({ activeTab: index === this.state.activeTab ? null : index})
   }
