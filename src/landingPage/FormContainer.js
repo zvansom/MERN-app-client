@@ -2,14 +2,16 @@ import React, { Component } from "react";
 import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";
 
+import axios from 'axios';
+
 import SERVER_URL from '../constants/server';
 
 class FormContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       image: ""
@@ -21,28 +23,36 @@ class FormContainer extends Component {
     e.preventDefault();
 
     const userform = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
+      firstname: this.state.firstName,
+      lastname: this.state.lastName,
       email: this.state.email,
       password: this.state.password,
       image: this.state.image
     };
 
-    const request = fetch(`${SERVER_URL}/auth/signup`, {
-      method: 'POST',
-      body: this.state,
-    })  
+    console.log(this.state);
+
+    axios.post(SERVER_URL + '/auth/signup', this.state)
+    .then(result => {
+      console.log('SUCCESS!', result);
+      // Add the newly received token to LS
+      // localStorage.setItem('mernToken', result.data.token);
+      // Update the user with a call to App.js
+      // this.props.updateUser();
+    })
+    .catch(err => {
+      console.log('ERROR', err);
+    }); 
 
     this.handleClearForm();
-    console.log(userform);
+    // console.log(userform);
   };
 
   handleClearForm = e => {
     // clear form logic goes here
-    e.preventDefault();
     this.setState({
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       image: ""
@@ -50,10 +60,10 @@ class FormContainer extends Component {
   };
 
   handleFirstNameChange = e => {
-    this.setState({ firstName: e.target.value });
+    this.setState({ firstname: e.target.value });
   };
   handleLastNameChange = e => {
-    this.setState({ lastName: e.target.value });
+    this.setState({ lastname: e.target.value });
   };
   handleEmailChange = e => {
     this.setState({ email: e.target.value });
@@ -74,17 +84,17 @@ class FormContainer extends Component {
           <div className="full-name">
             <SingleInput
               inputType={"text"}
-              name={"firstName"}
+              name={"firstname"}
               controlFunc={this.handleFirstNameChange}
-              content={this.state.firstName}
+              content={this.state.firstname}
               placeholder={"First Name"}
               width={"true"}
             />
             <SingleInput
               inputType={"text"}
-              name={"lastName"}
+              name={"lastname"}
               controlFunc={this.handleLastNameChange}
-              content={this.state.lastName}
+              content={this.state.lastname}
               placeholder={"Last Name"}
               width={"true"}
             />
