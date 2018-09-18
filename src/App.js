@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 
 // Import local dependencies
-import SERVER_URL from "./constants/server";
+import {SERVER_URL} from "./constants/globals";
 
 //  Import styles
 import "./App.css";
