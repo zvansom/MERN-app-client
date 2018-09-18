@@ -1,9 +1,19 @@
 import React, { Component } from 'react';
+import FormContainer from './landingPage/FormContainer';
+
+// TODO: rename SubmitButton component
+import SubmitButton from './components/SubmitButton';
 
 class Home extends Component {
   render() {
     return(
-        <p>This is a home page. You should probably write something here.</p>
+      <div className="page">
+        <h2>Login now!</h2>
+        <SubmitButton value='LOGIN'/>
+        
+
+        <FormContainer />
+      </div>
       );
   }
 }
