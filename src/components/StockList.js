@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
+import LineChart from "../chart/LineChart";
 
 import { arrowDown } from "react-icons-kit/fa/arrowDown";
 import { arrowUp } from "react-icons-kit/fa/arrowUp";
@@ -70,6 +71,7 @@ export default class StockList extends Component {
           }
         >
           THIS WOULD BE A COOL SPOT FOR A GRAPH!
+          <LineChart symbol={this.props.symbol} />
         </div>
       </StockItem>
     );
@@ -93,7 +95,7 @@ const StockItem = styled.div`
   }
 
   > div.active {
-    height: 100px;
+    height: 600px;
   }
 `;
 
