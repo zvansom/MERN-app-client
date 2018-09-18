@@ -2,13 +2,13 @@ import React from "react";
 import styled from "styled-components";
 
 const SubmitButton = props => {
-  return <Button>{props.value}</Button>;
+  return <Button fillColor={props.fillColor}>{props.value} </Button>;
 };
 
 export default SubmitButton;
 
 const Button = styled.button`
-  background: #0b77c4;
+  background: ${props => props.fillColor || "#0b77c4"};
   color: white;
   font-size: 1em;
   margin: 1em;
