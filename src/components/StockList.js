@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
+import LineChart from '../chart/LineChart';
 
 
 export default class StockList extends Component {
@@ -23,7 +24,7 @@ export default class StockList extends Component {
         <h2>{this.props.name}</h2>
         <h2>{this.state.price}</h2>
         <div className={"drawer" + (this.props.activeTab == this.props.index ? " active" : "")} >
-          THIS WOULD BE A COOL SPOT FOR A GRAPH!
+          <LineChart symbol={this.props.symbol} />
         </div>
       </StockItem>
     )
@@ -47,6 +48,6 @@ const StockItem = styled.div`
   }
 
   > div.active {
-    height: 100px;
+    height: 600px;
   }
 `;
