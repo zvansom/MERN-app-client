@@ -12,6 +12,7 @@ import "./App.css";
 // Import Components
 import FormContainer from "./landingPage/FormContainer";
 import LoginPage from "./landingPage/LoginPage";
+import ProgressBar from "./components/ProgressBar";
 
 import Footer from "./layout/Footer";
 import Home from "./Home";
@@ -94,6 +95,7 @@ class App extends Component {
           </div>
         </Router>
         <Footer />
+        {/* <ProgressBar workingCapital={110} portfolioTotal={90000} /> */}
       </div>
     );
   }
