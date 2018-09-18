@@ -16,7 +16,6 @@ import Footer from "./layout/Footer";
 import Home from "./Home";
 import Nav from "./layout/Nav";
 import Profile from "./Profile";
-import Signup from "./auth/Signup";
 
 class App extends Component {
   state = {
@@ -72,7 +71,6 @@ class App extends Component {
           <Switch>
             <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
             <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
-            <Route path="/signup" component={ () => (<Signup user={this.state.user} updateUser={this.getUser} />) } />
             <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
           </Switch>
           </div>
