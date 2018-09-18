@@ -74,7 +74,7 @@ class FormContainer extends Component {
   render() {
     return (
       <div className="container">
-        <LoginButton />
+        {/* <LoginButton /> */}
         <form className="form-container" onSubmit={this.handleFormSubmit}>
           <h3>Sign up for your free account</h3>
           <div className="full-name">
