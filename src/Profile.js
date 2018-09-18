@@ -14,12 +14,12 @@ class Profile extends Component {
     }
   }
 
-  componentDidMount() {
-    console.log('id', this.props.user.id)
-    const url = `${SERVER_URL}/auth/users/${this.props.user.id}`
-    console.log('url', url);
-    axios.get(url).then(response => console.log('response', response));
-  }
+  // componentDidMount() {
+  //   console.log('id', this.props.user.id)
+  //   const url = `${SERVER_URL}/users/${this.props.user.id}`
+  //   console.log('url', url);
+  //   axios.get(url).then(response => console.log('response', response));
+  // }
 
   render() {
     if(this.props.user){
