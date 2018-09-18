@@ -1,7 +1,7 @@
 html,
 body {
   width: 100%;
-  height: 100%;
+  height: 100vh;
 }
 
 nav {
@@ -26,7 +26,7 @@ nav a:hover {
   text-align: center;
   color: white;
   background: #319cd6;
-  height: 100%;
+  height: 100vh;
 }
 
 .login-conainer {
