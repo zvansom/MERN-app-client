@@ -11,6 +11,9 @@ const InputField = props => {
       value={props.value}
       onChange={props.onChange}
       placeholder={props.placeholder}
+      min={props.min || ""}
+      max={props.max || ""}
+      step={props.step || ""}
     />
   );
 };
@@ -20,7 +23,10 @@ InputField.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  placeholder: PropTypes.string
+  placeholder: PropTypes.string,
+  min: PropTypes.string,
+  max: PropTypes.string,
+  step: PropTypes.string
 };
 
 export default InputField;

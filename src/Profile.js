@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
-import axios from 'axios';
-
-import {SERVER_URL} from './constants/globals';
-import Accordion from './components/Accordion';
+import React, { Component } from "react";
+import { Redirect } from "react-router-dom";
+import ProgressBar from "./components/ProgressBar";
+import axios from "axios";
+import { SERVER_URL } from "./constants/globals";
+import Accordion from "./components/Accordion";
 
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       porfolio: [],
-      workingCap: null,
-    }
+      workingCap: null
+    };
   }
 
   // componentDidMount() {
@@ -22,17 +22,16 @@ class Profile extends Component {
   // }
 
   render() {
-    if(this.props.user){
+    if (this.props.user) {
       return (
-          <div>
-            <h2>Buy some new stocks!</h2>
-            <Accordion /> 
-          </div>
-        );
+        <div>
+          <h2>Buy some new stocks!</h2>
+          <ProgressBar workingCapital={110} portfolioTotal={90000} />
+          <Accordion />
+        </div>
+      );
     }
-    return(
-      <Redirect to="/" />
-    );
+    return <Redirect to="/" />;
   }
 }
 
