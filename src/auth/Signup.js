@@ -3,8 +3,6 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import SERVER_URL from '../constants/server';
 
-import FormContainer from '../landingPage/FormContainer';
-
 class Signup extends Component {
   constructor(props){
     super(props);

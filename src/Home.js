@@ -12,7 +12,7 @@ class Home extends Component {
         <SubmitButton value='LOGIN'/>
         
 
-        <FormContainer />
+        <FormContainer updateUser={this.props.updateUser} />
       </div>
       );
   }
