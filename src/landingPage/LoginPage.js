@@ -41,8 +41,6 @@ class LoginPage extends Component {
     .catch(err => {
       console.log('ERROR', err.response.data);
     });
-
-    console.log(userform);
   };
 
   render() {
