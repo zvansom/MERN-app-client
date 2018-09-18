@@ -21,15 +21,6 @@ class FormContainer extends Component {
   handleFormSubmit = e => {
     // submit logic goes here
     e.preventDefault();
-
-    const userform = {
-      firstname: this.state.firstName,
-      lastname: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      image: this.state.image
-    };
-
     console.log(this.state);
 
     axios.post(SERVER_URL + '/auth/signup', this.state)
