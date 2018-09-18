@@ -10,16 +10,13 @@ import SERVER_URL from "./constants/server";
 import "./App.css";
 
 // Import Components
-import FormContainer from "./landingPage/FormContainer";
 import LoginPage from "./landingPage/LoginPage";
 import ProgressBar from "./components/ProgressBar";
 
 import Footer from "./layout/Footer";
 import Home from "./Home";
-import Login from "./auth/Login";
 import Nav from "./layout/Nav";
 import Profile from "./Profile";
-import Signup from "./auth/Signup";
 
 class App extends Component {
   state = {
@@ -71,27 +68,12 @@ class App extends Component {
       <div className="App">
         <Router>
           <div className="container">
-            <Nav user={this.state.user} updateUser={this.getUser} />
-            <FormContainer />
-            <Switch>
-              <Route exact path="/" component={Home} />
-              <Route
-                path="/login"
-                component={() => (
-                  <Login user={this.state.user} updateUser={this.getUser} />
-                )}
-              />
-              <Route
-                path="/signup"
-                component={() => (
-                  <Signup user={this.state.user} updateUser={this.getUser} />
-                )}
-              />
-              <Route
-                path="/profile"
-                component={() => <Profile user={this.state.user} />}
-              />
-            </Switch>
+          <Nav user={this.state.user} updateUser={this.getUser} />
+          <Switch>
+            <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
+            <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
+            <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
+          </Switch>
           </div>
         </Router>
         <Footer />

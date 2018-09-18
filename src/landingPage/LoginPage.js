@@ -1,4 +1,8 @@
 import React, { Component } from "react";
+import { Redirect } from 'react-router-dom';
+import axios from 'axios';
+import SERVER_URL from '../constants/server';
+
 import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";
 import styled from "styled-components";
@@ -27,10 +31,24 @@ class LoginPage extends Component {
       password: this.state.password
     };
 
+    axios.post(SERVER_URL + '/auth/login', this.state)
+    .then(result => {
+      // Add the newly received token to LS
+      localStorage.setItem('mernToken', result.data.token);
+      // Update the user with a call to App.js
+      this.props.updateUser();
+    })
+    .catch(err => {
+      console.log('ERROR', err.response.data);
+    });
+
     console.log(userform);
   };
 
   render() {
+    if(this.props.user){
+      return (<Redirect to="/profile" />);
+    }
     return (
       <Logindiv className="login-page">
         <form className="login-container" onSubmit={this.handleFormSubmit}>
@@ -43,7 +61,7 @@ class LoginPage extends Component {
               placeholder={"Email"}
             />
             <SingleInput
-              inputType={"text"}
+              inputType={"password"}
               name={"password"}
               controlFunc={this.handlePasswordChange}
               content={this.state.password}
