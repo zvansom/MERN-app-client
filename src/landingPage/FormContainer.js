@@ -21,24 +21,15 @@ class FormContainer extends Component {
   handleFormSubmit = e => {
     // submit logic goes here
     e.preventDefault();
-
-    const userform = {
-      firstname: this.state.firstName,
-      lastname: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      image: this.state.image
-    };
-
     console.log(this.state);
 
     axios.post(SERVER_URL + '/auth/signup', this.state)
     .then(result => {
       console.log('SUCCESS!', result);
       // Add the newly received token to LS
-      // localStorage.setItem('mernToken', result.data.token);
+      localStorage.setItem('mernToken', result.data.token);
       // Update the user with a call to App.js
-      // this.props.updateUser();
+      this.props.updateUser();
     })
     .catch(err => {
       console.log('ERROR', err);
