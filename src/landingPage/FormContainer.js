@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";
-import LoginButton from "../components/LoginButton";
+
+import SERVER_URL from '../constants/server';
 
 class FormContainer extends Component {
   constructor(props) {
@@ -13,19 +14,6 @@ class FormContainer extends Component {
       password: "",
       image: ""
     };
-  }
-  componentDidMount() {
-    // fetch("./fake_db.json")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     this.setState({
-    //       firstName: data.firstName,
-    //       lastName: data.lastName,
-    //       email: data.email,
-    //       password: data.password,
-    //       image: data.image
-    //     });
-    //   });
   }
 
   handleFormSubmit = e => {
@@ -40,6 +28,12 @@ class FormContainer extends Component {
       image: this.state.image
     };
 
+    const request = fetch(`${SERVER_URL}/auth/signup`, {
+      method: 'POST',
+      body: this.state,
+    })  
+
+    this.handleClearForm();
     console.log(userform);
   };
 
