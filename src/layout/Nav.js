@@ -24,7 +24,6 @@ class Nav extends Component {
       links = (
           <span>
             <Link to="/login">Log In</Link>
-            <Link to="/signup">Sign Up</Link>
           </span>
         );
     }

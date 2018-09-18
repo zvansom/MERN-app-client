@@ -1,54 +1,49 @@
 import React, { Component } from "react";
 import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";
-import LoginButton from "../components/LoginButton";
+
+import axios from 'axios';
+
+import SERVER_URL from '../constants/server';
 
 class FormContainer extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       image: ""
     };
   }
-  componentDidMount() {
-    // fetch("./fake_db.json")
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     this.setState({
-    //       firstName: data.firstName,
-    //       lastName: data.lastName,
-    //       email: data.email,
-    //       password: data.password,
-    //       image: data.image
-    //     });
-    //   });
-  }
 
   handleFormSubmit = e => {
     // submit logic goes here
     e.preventDefault();
+    console.log(this.state);
 
-    const userform = {
-      firstName: this.state.firstName,
-      lastName: this.state.lastName,
-      email: this.state.email,
-      password: this.state.password,
-      image: this.state.image
-    };
+    axios.post(SERVER_URL + '/auth/signup', this.state)
+    .then(result => {
+      console.log('SUCCESS!', result);
+      // Add the newly received token to LS
+      localStorage.setItem('mernToken', result.data.token);
+      // Update the user with a call to App.js
+      this.props.updateUser();
+    })
+    .catch(err => {
+      console.log('ERROR', err);
+    }); 
 
-    console.log(userform);
+    this.handleClearForm();
+    // console.log(userform);
   };
 
   handleClearForm = e => {
     // clear form logic goes here
-    e.preventDefault();
     this.setState({
-      firstName: "",
-      lastName: "",
+      firstname: "",
+      lastname: "",
       email: "",
       password: "",
       image: ""
@@ -56,10 +51,10 @@ class FormContainer extends Component {
   };
 
   handleFirstNameChange = e => {
-    this.setState({ firstName: e.target.value });
+    this.setState({ firstname: e.target.value });
   };
   handleLastNameChange = e => {
-    this.setState({ lastName: e.target.value });
+    this.setState({ lastname: e.target.value });
   };
   handleEmailChange = e => {
     this.setState({ email: e.target.value });
@@ -74,23 +69,23 @@ class FormContainer extends Component {
   render() {
     return (
       <div className="container">
-        <LoginButton />
+        {/* <LoginButton /> */}
         <form className="form-container" onSubmit={this.handleFormSubmit}>
           <h3>Sign up for your free account</h3>
           <div className="full-name">
             <SingleInput
               inputType={"text"}
-              name={"firstName"}
+              name={"firstname"}
               controlFunc={this.handleFirstNameChange}
-              content={this.state.firstName}
+              content={this.state.firstname}
               placeholder={"First Name"}
               width={"true"}
             />
             <SingleInput
               inputType={"text"}
-              name={"lastName"}
+              name={"lastname"}
               controlFunc={this.handleLastNameChange}
-              content={this.state.lastName}
+              content={this.state.lastname}
               placeholder={"Last Name"}
               width={"true"}
             />
