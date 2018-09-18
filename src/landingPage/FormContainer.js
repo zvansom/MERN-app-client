@@ -15,7 +15,7 @@ class FormContainer extends Component {
       email: "",
       password: "",
       image: "",
-
+      workingCapital: STARTING_CAPITAL,
     };
   }
 
