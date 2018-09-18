@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
-import SERVER_URL from '../constants/server';
+import {SERVER_URL} from '../constants/globals';
 
 import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";

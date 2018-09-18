@@ -4,7 +4,7 @@ import SubmitButton from "../components/SubmitButton";
 
 import axios from 'axios';
 
-import SERVER_URL from '../constants/server';
+import { SERVER_URL, STARTING_CAPITAL } from '../constants/globals';
 
 class FormContainer extends Component {
   constructor(props) {
@@ -14,7 +14,8 @@ class FormContainer extends Component {
       lastname: "",
       email: "",
       password: "",
-      image: ""
+      image: "",
+
     };
   }
 
