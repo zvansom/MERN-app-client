@@ -1,13 +1,15 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
 
+import Accordion from './components/Accordion';
+
 class Profile extends Component {
   render() {
     if(this.props.user){
       return (
           <div>
-            <h2>Hello again, {this.props.user.name}!</h2>
-            <h4>Your email is {this.props.user.email}</h4>
+            <h2>Buy some new stocks!</h2>
+            <Accordion /> 
           </div>
         );
     }
