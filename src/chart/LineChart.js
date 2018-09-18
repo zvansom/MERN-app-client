@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 import Chart from 'chart.js';
 import styled from 'styled-components';
 
+// API data
+import { Top100 } from '../constants/Top100';
+import StockList from '../components/StockList';
+
 
 class LineChart extends Component {
   componentDidMount() {
@@ -11,7 +15,7 @@ class LineChart extends Component {
     data: {
         labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
         datasets: [{
-            label: 'Price',
+            label: this.props.symbol,
             fill: false,
             borderJoinStyle: 'round',
             data: [2, 19, 3, 5, 2, 3, 10],
@@ -45,8 +49,8 @@ class LineChart extends Component {
             }]
         }
     }
-});
-  }
+	});
+}
 
   render() {
     return(
@@ -60,7 +64,7 @@ class LineChart extends Component {
 export default LineChart;
 
 const LineCanvas = styled.div`
-  width: 900px;
+  width: 600px;
   height: auto; 
 `;
 
