@@ -3,7 +3,7 @@ import SingleInput from "./SingleInput";
 import SubmitButton from "../components/SubmitButton";
 import styled from "styled-components";
 
-class Login extends Component {
+class LoginPage extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -57,7 +57,7 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default LoginPage;
 
 const Logindiv = styled.div`
   position: fixed;
