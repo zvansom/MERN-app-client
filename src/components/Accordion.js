@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
-import { Top100 } from './constants/Top100';
+import { Top100 } from '../constants/Top100';
 
 import StockList from './StockList';
 export default class Accordion extends Component {
@@ -21,6 +21,7 @@ export default class Accordion extends Component {
           <div>Stock Name</div>
           <div>Current Share Value</div>
         </AccordionHeader>
+
         <AccordionWrapper>
           {Top100.map((stock, idx) => (
             <StockList 
@@ -39,6 +40,7 @@ export default class Accordion extends Component {
 
 const AccordionWrapper = styled.div`
   border: 3px solid black;
+  background: #319cd6;
 `;
 
 const AccordionHeader = styled.div`

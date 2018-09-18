@@ -11,12 +11,12 @@ import "./App.css";
 
 // Import Components
 import LoginPage from "./landingPage/LoginPage";
+import ProgressBar from "./components/ProgressBar";
 
 import Footer from "./layout/Footer";
 import Home from "./Home";
 import Nav from "./layout/Nav";
 import Profile from "./Profile";
-import Signup from "./auth/Signup";
 
 class App extends Component {
   state = {
@@ -70,14 +70,14 @@ class App extends Component {
           <div className="container">
           <Nav user={this.state.user} updateUser={this.getUser} />
           <Switch>
-            <Route exact path="/" component={() => (<Home updateUser={this.getUser}  />) } />
+            <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
             <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
-            <Route path="/signup" component={ () => (<Signup user={this.state.user} updateUser={this.getUser} />) } />
             <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
           </Switch>
           </div>
         </Router>
         <Footer />
+        {/* <ProgressBar workingCapital={110} portfolioTotal={90000} /> */}
       </div>
     );
   }
