@@ -4,30 +4,32 @@ import ProgressBar from "./components/ProgressBar";
 import axios from "axios";
 import { SERVER_URL } from "./constants/globals";
 import Accordion from "./components/Accordion";
-
+import LineChart from "./chart/LineChart";
+import Trade from "./components/Trade";
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       porfolio: [],
-      workingCap: null
+      workingCap: null,
+      chartDisplayed: null
     };
   }
 
-  // componentDidMount() {
-  //   console.log('id', this.props.user.id)
-  //   const url = `${SERVER_URL}/users/${this.props.user.id}`
-  //   console.log('url', url);
-  //   axios.get(url).then(response => console.log('response', response));
-  // }
+  handleClick = e => {
+    this.setState({ chartDisplayed: e.target.dataset.symbol });
+  };
 
   render() {
     if (this.props.user) {
       return (
         <div>
-          <h2>Buy some new stocks!</h2>
           <ProgressBar workingCapital={110} portfolioTotal={90000} />
-          <Accordion />
+          <LineChart symbol={this.state.chartDisplayed} />
+          <Trade />
+          {/* FILTER SEARCH BAR HERE */}
+          <h2>Buy some new stocks!</h2>
+          <Accordion handleClick={this.handleClick} />
         </div>
       );
     }

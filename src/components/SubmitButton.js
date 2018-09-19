@@ -4,10 +4,11 @@ import styled from "styled-components";
 const SubmitButton = props => {
   return (
     <Button
+      data-symbol={props.symbol}
+      onClick={props.handleClick}
       fillColor={props.fillColor}
-      onClick={props.onClick ? props.onClick : null}
     >
-      {props.value}
+      {props.value}{" "}
     </Button>
   );
 };
@@ -22,5 +23,15 @@ const Button = styled.button`
   padding: 0.25em 1em;
   border: 2px solid #0b77c4;
   border-radius: 3px;
-  width: 33%;
 `;
+
+// <<<<<<< HEAD
+//   return (
+//     <Button
+//       fillColor={props.fillColor}
+//       onClick={props.onClick ? props.onClick : null}
+//     >
+//       {props.value}
+//     </Button>
+//   );
+// =======
