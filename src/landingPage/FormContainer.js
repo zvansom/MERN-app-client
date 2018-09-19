@@ -23,7 +23,7 @@ class FormContainer extends Component {
   handleFormSubmit = e => {
     // submit logic goes here
     e.preventDefault();
-    console.log(this.state);
+    console.log('submit', this.state);
 
     axios.post(SERVER_URL + '/auth/signup', this.state)
     .then(result => {
@@ -53,6 +53,7 @@ class FormContainer extends Component {
   };
 
   handleFirstNameChange = e => {
+    console.log(e.target.value)
     this.setState({ firstname: e.target.value });
   };
   handleLastNameChange = e => {
@@ -79,6 +80,8 @@ class FormContainer extends Component {
             content={this.state.firstname}
             placeholder={"First Name"}
             width={"true"}
+            onChange={this.handleFirstNameChange}
+            value={this.state.firstname}
           />
           <InputField
             inputType={"text"}
@@ -87,6 +90,8 @@ class FormContainer extends Component {
             content={this.state.lastname}
             placeholder={"Last Name"}
             width={"true"}
+            onChange={this.handleLastNameChange}
+            value={this.state.lastname}
           />
           <InputField
             inputType={"text"}
@@ -95,6 +100,8 @@ class FormContainer extends Component {
             content={this.state.email}
             placeholder={"Email"}
             width={"true"}
+            onChange={this.handleEmailChange}
+            value={this.state.email}
           />
           <InputField
             inputType={"password"}
@@ -103,6 +110,8 @@ class FormContainer extends Component {
             content={this.state.password}
             placeholder={"Password"}
             width={"true"}
+            onChange={this.handlePasswordChange}
+            value={this.state.password}
           />
           <InputField
             inputType={"text"}
@@ -111,6 +120,8 @@ class FormContainer extends Component {
             content={this.state.image}
             placeholder={"Profile Image"}
             width={"false"}
+            onChange={this.handleImageChange}
+            value={this.state.image}
           />
         <SubmitButton value="Create Acount" />
       </StyledForm>
