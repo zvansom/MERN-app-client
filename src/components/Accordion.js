@@ -13,8 +13,6 @@ export default class Accordion extends Component {
           <th>Stock Name</th>
           <th>Share Value</th>
           <th>Loss | Gain</th>
-          <th>Number of Share</th>
-          <th>Sell | Buy</th>
         </thead>
         <tbody>
           {Top100.map((stock, idx) => (
@@ -23,6 +21,7 @@ export default class Accordion extends Component {
               index={idx}
               name={stock.name}
               symbol={stock.symbol}
+              handleClick={this.props.handleClick}
             />
           ))}
         </tbody>
