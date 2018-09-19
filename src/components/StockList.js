@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
+import LineChart from "../chart/LineChart";
+import Toggle from "./Toggle";
+import Trade from "./Trade";
 import SubmitButton from "./SubmitButton";
 
 import { arrowDown } from "react-icons-kit/fa/arrowDown";
@@ -9,7 +12,7 @@ import { Icon } from "react-icons-kit";
 export default class StockList extends Component {
   state = {
     price: null,
-    up: Math.round(Math.random() * 100) / 100,
+    up: Math.round(Math.random() * 100) / 100
   };
 
   async componentDidMount() {
@@ -29,26 +32,34 @@ export default class StockList extends Component {
     if (this.state.up > 0.5) {
       arrow = (
         //TODO: hardcoded pewrcentages
+
         <td style={{ color: "#4040a1" }}>
-          +{this.state.up * 100}%
-          <Icon size={25} icon={arrowUp} />
+          +{this.state.up * 100}%<Icon size={25} icon={arrowUp} />
         </td>
       );
     } else {
       arrow = (
         <td style={{ color: "#c83349" }}>
-          -{this.state.up * 100}%
-          <Icon size={25} icon={arrowDown} />
+          -{this.state.up * 100}%<Icon size={25} icon={arrowDown} />
         </td>
       );
     }
 
     return (
       <StyledTr>
-        <td>{this.props.name} <span>({this.props.symbol})</span></td>
+        <td>
+          {this.props.name} <span>({this.props.symbol})</span>
+        </td>
         <td>{this.state.price}</td>
         {arrow}
-        <td><SubmitButton symbol={this.props.symbol} value="See More" handleClick={this.props.handleClick}/></td>
+
+        <td>
+          <SubmitButton
+            symbol={this.props.symbol}
+            value="See More"
+            handleClick={this.props.handleClick}
+          />
+        </td>
       </StyledTr>
     );
   }
@@ -56,7 +67,6 @@ export default class StockList extends Component {
 
 const StyledTr = styled.tr`
   > td {
-  border: 1px solid black;
-
+    border: 1px solid black;
   }
 `;

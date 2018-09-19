@@ -2,7 +2,15 @@ import React from "react";
 import styled from "styled-components";
 
 const SubmitButton = props => {
-  return <Button data-symbol={props.symbol} onClick={props.handleClick} fillColor={props.fillColor}>{props.value} </Button>;
+  return (
+    <Button
+      data-symbol={props.symbol}
+      onClick={props.handleClick}
+      fillColor={props.fillColor}
+    >
+      {props.value}{" "}
+    </Button>
+  );
 };
 
 export default SubmitButton;
@@ -16,3 +24,14 @@ const Button = styled.button`
   border: 2px solid #0b77c4;
   border-radius: 3px;
 `;
+
+// <<<<<<< HEAD
+//   return (
+//     <Button
+//       fillColor={props.fillColor}
+//       onClick={props.onClick ? props.onClick : null}
+//     >
+//       {props.value}
+//     </Button>
+//   );
+// =======
