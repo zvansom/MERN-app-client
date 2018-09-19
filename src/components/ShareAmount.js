@@ -4,7 +4,6 @@ import InputField from "./InputField";
 export default class ShareAmount extends Component {
   render() {
     return (
-      <div>
         <InputField
           name={"shares"}
           type={"number"}
@@ -15,7 +14,7 @@ export default class ShareAmount extends Component {
           step={"1"}
           onChange={this.props.handleshares}
         />
-      </div>
+      
     );
   }
 }

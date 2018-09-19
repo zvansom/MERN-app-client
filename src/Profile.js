@@ -12,9 +12,12 @@ class Profile extends Component {
     this.state = {
       porfolio: [],
       workingCap: null,
-      chartDisplayed: null
+      symbol: 'GOOG'
     };
   }
+
+
+
 
   handleClick = e => {
     this.setState({ chartDisplayed: e.target.dataset.symbol });
@@ -25,9 +28,8 @@ class Profile extends Component {
       return (
         <div>
           <ProgressBar workingCapital={110} portfolioTotal={90000} />
-          <LineChart symbol={this.state.chartDisplayed} />
-          <Trade />
-          {/* FILTER SEARCH BAR HERE */}
+          <LineChart symbol={this.state.symbol} />
+          <Trade symbol={this.state.symbol} />
           <h2>Buy some new stocks!</h2>
           <Accordion handleClick={this.handleClick} />
         </div>

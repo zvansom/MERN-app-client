@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SubmitButton from "./SubmitButton";
 import ShareAmount from "./ShareAmount";
+import styled from 'styled-components';
 
 export default class Trade extends Component {
   constructor(props) {
@@ -63,7 +64,7 @@ export default class Trade extends Component {
     let buymax = "10";
 
     return (
-      <div>
+      <StyledDiv>
         {{ sellmax } && (
           <div>
             <SubmitButton
@@ -82,7 +83,13 @@ export default class Trade extends Component {
           />
           <ShareAmount max={buymax} handleshares={this.handleshares} />
         </div>
-      </div>
+      </StyledDiv>
     );
   }
 }
+
+const StyledDiv = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 1fr);
+  grid-auto-flow: column;
+`;
