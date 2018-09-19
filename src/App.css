@@ -2,6 +2,7 @@ html,
 body {
   width: 100%;
   height: 100vh;
+  background: #319cd6;
 }
 
 nav {
@@ -25,17 +26,10 @@ nav a:hover {
 .App {
   text-align: center;
   color: white;
-  background: #319cd6;
   height: 100vh;
 }
 
-.login-conainer {
-  text-align: right;
-}
-
-.full-name,
-.profile-image,
-.login-password {
-  display: flex;
-  justify-content: center;
+.page {
+  width: 75vw;
+  margin: 0 auto;
 }

@@ -6,7 +6,6 @@ import registerServiceWorker from "./registerServiceWorker";
 
 // Line Chart testing
 import Accordion from "./components/Accordion";
-import Trade from "./components/Trade";
 
-ReactDOM.render(<Trade />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById("root"));
 registerServiceWorker();
