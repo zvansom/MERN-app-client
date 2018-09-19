@@ -8,5 +8,5 @@ import registerServiceWorker from './registerServiceWorker';
 import Accordion from './components/Accordion';
 
 
-ReactDOM.render(<Accordion />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
 registerServiceWorker();

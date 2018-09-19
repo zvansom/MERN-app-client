@@ -1,6 +1,7 @@
 import React, { Component } from "react";
-import SingleInput from "./SingleInput";
+import styled from 'styled-components';
 import SubmitButton from "../components/SubmitButton";
+import InputField from '../components/InputField';
 
 import axios from 'axios';
 
@@ -69,66 +70,75 @@ class FormContainer extends Component {
 
   render() {
     return (
-      <div className="container">
-        {/* <LoginButton /> */}
-        <form className="form-container" onSubmit={this.handleFormSubmit}>
-          <h3>Sign up for your free account</h3>
-          <div className="full-name">
-            <SingleInput
-              inputType={"text"}
-              name={"firstname"}
-              controlFunc={this.handleFirstNameChange}
-              content={this.state.firstname}
-              placeholder={"First Name"}
-              width={"true"}
-            />
-            <SingleInput
-              inputType={"text"}
-              name={"lastname"}
-              controlFunc={this.handleLastNameChange}
-              content={this.state.lastname}
-              placeholder={"Last Name"}
-              width={"true"}
-            />
-          </div>
-          <div className="login-password">
-            <SingleInput
-              inputType={"text"}
-              name={"email"}
-              controlFunc={this.handleEmailChange}
-              content={this.state.email}
-              placeholder={"Email"}
-              width={"true"}
-            />
-            <SingleInput
-              inputType={"password"}
-              name={"password"}
-              controlFunc={this.handlePasswordChange}
-              content={this.state.password}
-              placeholder={"Password"}
-              width={"true"}
-            />
-          </div>
-          <div className="profile-image">
-            <SingleInput
-              inputType={"text"}
-              name={"image"}
-              controlFunc={this.handleImageChange}
-              content={this.state.image}
-              placeholder={"Profile Image"}
-              width={"false"}
-            />
-          </div>
-          <SubmitButton value="Create Acount" />
-        </form>
-        <div>
-          <p>
-            By creating an acount you agree to our <u>terms of service</u>{" "}
-          </p>
-        </div>
-      </div>
+      <StyledForm onSubmit={this.handleFormSubmit}>
+        <h3>Sign up for your free account</h3>
+          <InputField
+            inputType={"text"}
+            name={"firstname"}
+            controlFunc={this.handleFirstNameChange}
+            content={this.state.firstname}
+            placeholder={"First Name"}
+            width={"true"}
+          />
+          <InputField
+            inputType={"text"}
+            name={"lastname"}
+            controlFunc={this.handleLastNameChange}
+            content={this.state.lastname}
+            placeholder={"Last Name"}
+            width={"true"}
+          />
+          <InputField
+            inputType={"text"}
+            name={"email"}
+            controlFunc={this.handleEmailChange}
+            content={this.state.email}
+            placeholder={"Email"}
+            width={"true"}
+          />
+          <InputField
+            inputType={"password"}
+            name={"password"}
+            controlFunc={this.handlePasswordChange}
+            content={this.state.password}
+            placeholder={"Password"}
+            width={"true"}
+          />
+          <InputField
+            inputType={"text"}
+            name={"image"}
+            controlFunc={this.handleImageChange}
+            content={this.state.image}
+            placeholder={"Profile Image"}
+            width={"false"}
+          />
+        <SubmitButton value="Create Acount" />
+      </StyledForm>
     );
   }
 }
 
 export default FormContainer;
+
+const StyledForm = styled.form`
+  margin: 30px auto;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+
+@media (min-width: 768px){
+  grid-template-columns: 1fr 1fr;
+  > h3 {
+    grid-column: span 2;
+  }
+
+  > input:last-of-type {
+    grid-column: span 2;
+  }
+  
+  > button {
+    grid-column: span 2;
+  }
+}
+
+`;
