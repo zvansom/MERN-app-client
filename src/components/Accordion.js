@@ -5,19 +5,8 @@ import { Top100 } from "../constants/Top100";
 import StockList from "./StockList";
 
 export default class Accordion extends Component {
-  state = {
-    activeTab: null,
-    sahres: null
-  };
-
-  handleClick = e => {
-    console.log("Accordion clicked!");
-    const index = e.target.dataset.index;
-    this.setState({ activeTab: index === this.state.activeTab ? null : index });
-  };
-
-  handleShares = e => {};
   render() {
+    // TODO: Look into turning the accordion into a table element
     return (
       <div>
         <AccordionHeader>
@@ -31,11 +20,9 @@ export default class Accordion extends Component {
         <AccordionWrapper>
           {Top100.map((stock, idx) => (
             <StockList
-              handleClick={this.handleClick}
               key={idx}
               index={idx}
               name={stock.name}
-              activeTab={this.state.activeTab}
               symbol={stock.symbol}
             />
           ))}
