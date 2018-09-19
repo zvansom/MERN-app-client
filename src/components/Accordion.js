@@ -7,6 +7,7 @@ import StockList from "./StockList";
 export default class Accordion extends Component {
   render() {
     // TODO: Look into turning the accordion into a table element
+    //Test
     return (
       <div>
         <AccordionHeader>
@@ -24,6 +25,7 @@ export default class Accordion extends Component {
               index={idx}
               name={stock.name}
               symbol={stock.symbol}
+              //shares={shares} //TODO: # of Shares user owns
             />
           ))}
         </AccordionWrapper>

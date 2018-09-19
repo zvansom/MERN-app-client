@@ -2,7 +2,14 @@ import React from "react";
 import styled from "styled-components";
 
 const SubmitButton = props => {
-  return <Button fillColor={props.fillColor}>{props.value} </Button>;
+  return (
+    <Button
+      fillColor={props.fillColor}
+      onClick={props.onClick ? props.onClick : null}
+    >
+      {props.value}
+    </Button>
+  );
 };
 
 export default SubmitButton;
