@@ -1,9 +1,6 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import InputField from "./InputField";
 import SubmitButton from "./SubmitButton";
-import LineChart from "../chart/LineChart";
-import Toggle from './Toggle';
 
 import { arrowDown } from "react-icons-kit/fa/arrowDown";
 import { arrowUp } from "react-icons-kit/fa/arrowUp";
@@ -48,39 +45,16 @@ export default class StockList extends Component {
 
     return (
       <StyledTr>
-        <td>{this.props.name}</td>
+        <td>{this.props.name} <span>({this.props.symbol})</span></td>
         <td>{this.state.price}</td>
         {arrow}
-        <td>
-          <InputField
-          name={"shares"}
-          type={"number"}
-          placeholder={"0"}
-          onChange={this.handleClear}
-          min={"0"}
-          max={"100"} //TODO: this should be based on your available funds
-          step={"1"}
-          />
-        </td>
-        <td id="submit-containers">
-          <SubmitButton value="Sell" fillColor="#ff6f69" />
-          <SubmitButton value="Buy" fillColor="#c83349" />
-        </td>
-        <Toggle>
-        {({ on, toggle }) => (
-          <div>
-            <button onClick={toggle}>Show</button>
-            {on && <LineChart symbol={this.props.symbol} />}
-          </div>
-        )}
-        </Toggle>
+        <td><SubmitButton symbol={this.props.symbol} value="See More" handleClick={this.props.handleClick}/></td>
       </StyledTr>
     );
   }
 }
 
 const StyledTr = styled.tr`
-
   > td {
   border: 1px solid black;
 
