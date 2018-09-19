@@ -1,9 +1,8 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import InputField from "./InputField";
-import SubmitButton from "./SubmitButton";
 import LineChart from "../chart/LineChart";
-import Toggle from './Toggle';
+import Toggle from "./Toggle";
+import Trade from "./Trade";
 
 // import { arrowDown } from "react-icons-kit/fa/arrowDown";
 // import { arrowUp } from "react-icons-kit/fa/arrowUp";
@@ -12,7 +11,7 @@ import Toggle from './Toggle';
 export default class StockList extends Component {
   state = {
     price: null,
-    up: Math.round(Math.random() * 100) / 100,
+    up: Math.round(Math.random() * 100) / 100
   };
 
   // async componentDidMount() {
@@ -33,15 +32,13 @@ export default class StockList extends Component {
       arrow = (
         //TODO: hardcoded pewrcentages
         <div style={{ color: "#4040a1" }}>
-          +{this.state.up * 100}%
-          {/* <Icon size={25} icon={arrowUp} /> */}
+          +{this.state.up * 100}%{/* <Icon size={25} icon={arrowUp} /> */}
         </div>
       );
     } else {
       arrow = (
         <div style={{ color: "#c83349" }}>
-          -{this.state.up * 100}%
-          {/* <Icon size={25} icon={arrowDown} /> */}
+          -{this.state.up * 100}%{/* <Icon size={25} icon={arrowDown} /> */}
         </div>
       );
     }
@@ -51,27 +48,15 @@ export default class StockList extends Component {
         <p>{this.props.name}</p>
         <p>{this.state.price}</p>
         {arrow}
-        <InputField
-          name={"shares"}
-          type={"number"}
-          placeholder={"0"}
-          onChange={this.handleClear}
-          min={"0"}
-          max={"100"} //TODO: this should be based on your available funds
-          step={"1"}
-        />
-        <div id="submit-containers">
-          <SubmitButton value="Sell" fillColor="#ff6f69" />
-          <SubmitButton value="Buy" fillColor="#c83349" />
-        </div>
-          <Toggle>
+        <Trade />
+        <Toggle>
           {({ on, toggle }) => (
             <div>
               <button onClick={toggle}>Show</button>
               {on && <LineChart symbol={this.props.symbol} />}
             </div>
           )}
-          </Toggle>
+        </Toggle>
       </StockItem>
     );
   }
