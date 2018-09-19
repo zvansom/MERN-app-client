@@ -15,5 +15,4 @@ const Button = styled.button`
   padding: 0.25em 1em;
   border: 2px solid #0b77c4;
   border-radius: 3px;
-  width: 33%;
 `;

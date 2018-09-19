@@ -6,13 +6,14 @@ import StockList from "./StockList";
 
 export default class Accordion extends Component {
   render() {
-    // TODO: Look into turning the accordion into a table element
     return (
       <StyledTable>
         <thead>
-          <th>Stock Name</th>
-          <th>Share Value</th>
-          <th>Loss | Gain</th>
+          <tr>
+            <th>Stock Name</th>
+            <th>Share Value</th>
+            <th>Loss | Gain</th>
+          </tr>
         </thead>
         <tbody>
           {Top100.map((stock, idx) => (
