@@ -4,21 +4,21 @@ import ProgressBar from "./components/ProgressBar";
 import axios from "axios";
 import { SERVER_URL } from "./constants/globals";
 import Accordion from "./components/Accordion";
-import LineChart from './chart/LineChart'
-
+import LineChart from "./chart/LineChart";
+import Trade from "./components/Trade";
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       porfolio: [],
       workingCap: null,
-      chartDisplayed: null,
+      chartDisplayed: null
     };
   }
 
   handleClick = e => {
-    this.setState({ chartDisplayed: e.target.dataset.symbol})
-  }
+    this.setState({ chartDisplayed: e.target.dataset.symbol });
+  };
 
   render() {
     if (this.props.user) {
@@ -26,6 +26,7 @@ class Profile extends Component {
         <div>
           <ProgressBar workingCapital={110} portfolioTotal={90000} />
           <LineChart symbol={this.state.chartDisplayed} />
+          <Trade />
           {/* FILTER SEARCH BAR HERE */}
           <h2>Buy some new stocks!</h2>
           <Accordion handleClick={this.handleClick} />
