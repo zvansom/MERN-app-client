@@ -91,7 +91,7 @@ class LineChart extends Component {
                   ticks: {
                       beginAtZero:false,
                       maxTicksLimit: 6,
-                      fontSize: 30,
+                      fontSize: 12,
                       callback: function(value, index, values) {
                         return `$` + value;
                       }
@@ -106,7 +106,6 @@ class LineChart extends Component {
     return(
     	  <LineCanvas>
 	       <canvas id="lineChart"></canvas>
-         <h1>Chart Data Here?</h1>
         </LineCanvas>
       );
   }
