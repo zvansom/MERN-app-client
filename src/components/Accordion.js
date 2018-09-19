@@ -8,16 +8,15 @@ export default class Accordion extends Component {
   render() {
     // TODO: Look into turning the accordion into a table element
     return (
-      <div>
-        <AccordionHeader>
-          <div>Stock Name</div>
-          <div>Share Value</div>
-          <div>Loss | Gain</div>
-          <div>Number of Share</div>
-          <div>Sell | Buy</div>
-        </AccordionHeader>
-
-        <AccordionWrapper>
+      <StyledTable>
+        <thead>
+          <th>Stock Name</th>
+          <th>Share Value</th>
+          <th>Loss | Gain</th>
+          <th>Number of Share</th>
+          <th>Sell | Buy</th>
+        </thead>
+        <tbody>
           {Top100.map((stock, idx) => (
             <StockList
               key={idx}
@@ -26,19 +25,13 @@ export default class Accordion extends Component {
               symbol={stock.symbol}
             />
           ))}
-        </AccordionWrapper>
-      </div>
+        </tbody>
+      </StyledTable>
     );
   }
 }
 
-const AccordionWrapper = styled.div`
+const StyledTable = styled.table`
   border: 3px solid black;
   background: #319cd6;
-`;
-
-const AccordionHeader = styled.div`
-  display: grid;
-  grid-auto-flow: column;
-  justify-content: space-around;
 `;
