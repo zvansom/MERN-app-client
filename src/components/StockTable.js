@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import styled from "styled-components";
 import { Top100 } from "../constants/Top100";
 
-import StockList from "./StockList";
+import StockRow from "./StockRow";
 
 export default class StockTable extends Component {
   render() {
@@ -17,7 +17,7 @@ export default class StockTable extends Component {
         </thead>
         <tbody>
           {Top100.map((stock, idx) => (
-            <StockList
+            <StockRow
               key={idx}
               index={idx}
               name={stock.name}
