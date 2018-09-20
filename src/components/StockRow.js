@@ -8,8 +8,8 @@ import { Icon } from "react-icons-kit";
 
 export default class StockRow extends Component {
   state = {
-    price: null,
-    up: Math.round(Math.random() * 100) / 100
+    closePrice: null,
+    openPrice: null,
   };
 
   async componentDidMount() {
@@ -20,24 +20,28 @@ export default class StockRow extends Component {
     const parse = await response.json();
 
     this.setState({
-      price: parse.close.price
+      closePrice: parse.close.price,
+      openPrice: parse.open.price,
     });
   }
 
   render() {
+    const { openPrice, closePrice } = this.state;
+    console.log('SYMBOL', this.props.symbol)
+    console.log('closePrice', closePrice);
+    console.log('openPrice', openPrice);
+    const percentChange = (((closePrice - openPrice) / openPrice) * 100).toFixed(2);
     let arrow;
-    if (this.state.up > 0.5) {
+    if (openPrice < closePrice) {
       arrow = (
-        //TODO: hardcoded pewrcentages
-
         <td style={{ color: "#4040a1" }}>
-          +{this.state.up * 100}%<Icon size={25} icon={arrowUp} />
+          {percentChange}%<Icon size={25} icon={arrowUp} />
         </td>
       );
     } else {
       arrow = (
         <td style={{ color: "#c83349" }}>
-          -{this.state.up * 100}%<Icon size={25} icon={arrowDown} />
+          {percentChange}%<Icon size={25} icon={arrowDown} />
         </td>
       );
     }
@@ -47,7 +51,7 @@ export default class StockRow extends Component {
         <td>
           {this.props.name} <span>({this.props.symbol})</span>
         </td>
-        <td>{this.state.price}</td>
+        <td>{this.state.closePrice}</td>
         {arrow}
 
         <td>
