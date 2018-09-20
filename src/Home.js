@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import FormContainer from "./landingPage/FormContainer";
+import NewUserForm from "./landingPage/NewUserForm";
 
 class Home extends Component {
   render() {
@@ -8,13 +8,15 @@ class Home extends Component {
       return <Redirect to="/profile" />;
     }
     return (
-      <div className="page">
+      <div className="content">
         <h2>Login now!</h2>
         <a href="/login">Login</a>
-        <FormContainer updateUser={this.props.updateUser} />
+        <NewUserForm updateUser={this.props.updateUser} />
       </div>
     );
   }
 }
 
 export default Home;
+
+
