@@ -29,7 +29,7 @@ class LineChart extends Component {
         const latestPrice = {
           date: new Date()
         }
-        console.log('one week data', data.slice(data.length - 7))
+        // console.log('one week data', data.slice(data.length - 7))
           this.setState({
             data: data //.slice(data.length - 7) last 7 days
           }, () => {
@@ -52,8 +52,8 @@ class LineChart extends Component {
       return point.close
     })
     closePrices.push(this.props.currentPrice)
-    console.log('labels only', labels)
-    console.log('close prices', closePrices)
+    // console.log('labels only', labels)
+    // console.log('close prices', closePrices)
     var ctx = document.getElementById("lineChart");
     var lineChart = new Chart(ctx, {
       type: 'line',
