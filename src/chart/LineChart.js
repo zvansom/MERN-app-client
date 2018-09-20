@@ -5,19 +5,30 @@ import styled from 'styled-components';
 class LineChart extends Component {
   constructor(props){
     super(props);
-      this.state = {
-        data: []
+    this.state = {
+      data: [],
     }
   }
 
-  componentDidMount() {
+  shouldComponentUpdate(nextProp, nextState) {
+    if(nextProp.symbol !== this.props.symbol){
+      this.fetchData(nextProp.symbol);
+      return true;
+    }
+    return false;
+  }
+
+  fetchData = symbol => {
     const url = `https://api.iextrading.com/1.0/stock/${
-      this.props.symbol
+      symbol
     }/chart/1m`;
     fetch(url)
       .then((response) => {
         return response.json()
       }).then((data) =>{
+        const latestPrice = {
+          date: new Date()
+        }
         console.log('one week data', data.slice(data.length - 7))
           this.setState({
             data: data //.slice(data.length - 7) last 7 days
@@ -29,6 +40,10 @@ class LineChart extends Component {
       })
   }
 
+  componentDidMount() {
+    this.fetchData(this.props.symbol);
+  }
+
   drawGraph = () => {
     const labels = this.state.data.map(point => {
       return point.label
@@ -36,6 +51,7 @@ class LineChart extends Component {
     const closePrices = this.state.data.map(point => {
       return point.close
     })
+    closePrices.push(this.props.currentPrice)
     console.log('labels only', labels)
     console.log('close prices', closePrices)
     var ctx = document.getElementById("lineChart");
@@ -99,9 +115,10 @@ class LineChart extends Component {
 
   render() {
     return(
-    	  <LineCanvas>
-	       <canvas id="lineChart"></canvas>
-        </LineCanvas>
+      <LineCanvas>
+        <h2>{this.props.symbol}</h2>
+        <canvas id="lineChart"></canvas>
+      </LineCanvas>
       );
   }
 }
