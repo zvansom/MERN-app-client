@@ -27,9 +27,6 @@ export default class StockRow extends Component {
 
   render() {
     const { openPrice, closePrice } = this.state;
-    console.log('SYMBOL', this.props.symbol)
-    console.log('closePrice', closePrice);
-    console.log('openPrice', openPrice);
     const percentChange = (((closePrice - openPrice) / openPrice) * 100).toFixed(2);
     let arrow;
     if (openPrice < closePrice) {

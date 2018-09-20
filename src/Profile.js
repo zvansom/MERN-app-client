@@ -1,23 +1,21 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import axios from "axios";
+
+import getCurrentValue from './getCurrentValue';
 // Import components
 import ProgressBar from "./components/ProgressBar";
 import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
-import async from "async";
 
 const SAMPLE_PORTFOLIO = [
   {
     symbol: "ATVI",
-    numShares: 4,
-    purchasePrice: null
+    numShares: 4000,
   },
   {
     symbol: "GOOG",
-    numShares: 4,
-    purchasePrice: null
+    numShares: 60,
   }
 ];
 
@@ -27,33 +25,19 @@ class Profile extends Component {
     this.state = {
       workingCap: null,
       currentPrice: null,
-      activeSymbol: "ATVI"
+      activeSymbol: "ATVI",
+      portfolioValue: 0,
     };
   }
 
-  calculatePortfolioValue = portfolio => {
-    let portfolioValue;
-    //const symbols = portfolio.map(stock => stock.symbol);
-    async.forEach(
-      portfolio,
-      function(stock, done) {
-        const url = `https://api.iextrading.com/1.0/stock/${stock.symbol}/ohlc`;
-        fetch(url)
-          .then(response => response.json())
-          .then(parse => {
-            stock.purchasePrice = parse.close.price;
-            done();
-          });
-      },
-      function() {
-        portfolioValue = portfolio.reduce((acc, stock) => {
-          return (acc += stock.purchasePrice * stock.numShares);
-        }, 0);
-        console.log("portfolio", portfolio);
-        console.log("portfolioValue", portfolioValue);
-      }
-    );
-  };
+  async componentDidMount() {
+    let currentValues = await SAMPLE_PORTFOLIO.map(stock => getCurrentValue(stock)
+      .then(res => { 
+        let currentPortfolio = this.state.portfolioValue;
+        currentPortfolio += res.price * res.numShares;
+        this.setState({portfolioValue: currentPortfolio})
+    }));
+  }
 
   handleClick = e => {
     console.log(e.target.dataset.currentprice);
@@ -64,14 +48,12 @@ class Profile extends Component {
   };
 
   render() {
-    this.calculatePortfolioValue(SAMPLE_PORTFOLIO);
-    console.log("SAMPLE_PORTFOLIO", SAMPLE_PORTFOLIO);
     if (this.props.user) {
       const { workingCapital, portfolio } = this.props;
       const { activeSymbol, currentPrice } = this.state;
       return (
         <div>
-          <ProgressBar workingCapital={workingCapital} portfolio={portfolio} />
+          <h2>Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}</h2>
           <LineChart symbol={activeSymbol} />
           <Trade currentPrice={currentPrice} symbol={activeSymbol} />
           <h2>Buy some new stocks!</h2>
