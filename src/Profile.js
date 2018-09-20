@@ -55,7 +55,7 @@ class Profile extends Component {
         <div>
           <h2>Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}</h2>
           <LineChart symbol={activeSymbol} />
-          <Trade currentPrice={currentPrice} symbol={activeSymbol} />
+          <Trade user={this.props.user} currentPrice={currentPrice} symbol={activeSymbol} />
           <h2>Buy some new stocks!</h2>
           <StockTable handleClick={this.handleClick} />
         </div>
