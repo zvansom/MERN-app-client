@@ -5,7 +5,7 @@ const SubmitButton = props => {
   return (
     <Button
       data-symbol={props.symbol}
-      data-currentprice={props.currentPrice}
+      data-price={props.price}
       onClick={props.handleClick}
       fillColor={props.fillColor}
     >
