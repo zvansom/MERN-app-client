@@ -26,11 +26,6 @@ class LoginPage extends Component {
   handleFormSubmit = e => {
     // submit logic goes here
     e.preventDefault();
-    const userform = {
-      email: this.state.email,
-      password: this.state.password
-    };
-
     axios.post(SERVER_URL + '/auth/login', this.state)
     .then(result => {
       // Add the newly received token to LS
