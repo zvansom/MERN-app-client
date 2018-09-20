@@ -8,7 +8,6 @@ export default class ShareAmount extends Component {
           name={"shares"}
           type={"number"}
           placeholder={"0"}
-          onChange={this.handleClear}
           min={"0"}
           max={this.props.max}
           step={"1"}
