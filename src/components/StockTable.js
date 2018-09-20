@@ -4,7 +4,7 @@ import { Top100 } from "../constants/Top100";
 
 import StockList from "./StockList";
 
-export default class Accordion extends Component {
+export default class StockTable extends Component {
   render() {
     return (
       <StyledTable>
