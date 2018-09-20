@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
 
-import getCurrentValue from './getCurrentValue';
+import getCurrentValue from "./getCurrentValue";
 // Import components
 import ProgressBar from "./components/ProgressBar";
 import StockTable from "./components/StockTable";
@@ -11,11 +11,11 @@ import Trade from "./components/Trade";
 const SAMPLE_PORTFOLIO = [
   {
     symbol: "ATVI",
-    numShares: 4000,
+    numShares: 4000
   },
   {
     symbol: "GOOG",
-    numShares: 60,
+    numShares: 60
   }
 ];
 
@@ -26,17 +26,18 @@ class Profile extends Component {
       workingCap: null,
       currentPrice: null,
       activeSymbol: "ATVI",
-      portfolioValue: 0,
+      portfolioValue: 0
     };
   }
 
   async componentDidMount() {
-    let currentValues = await SAMPLE_PORTFOLIO.map(stock => getCurrentValue(stock)
-      .then(res => { 
+    let currentValues = await SAMPLE_PORTFOLIO.map(stock =>
+      getCurrentValue(stock).then(res => {
         let currentPortfolio = this.state.portfolioValue;
         currentPortfolio += res.price * res.numShares;
-        this.setState({portfolioValue: currentPortfolio})
-    }));
+        this.setState({ portfolioValue: currentPortfolio });
+      })
+    );
   }
 
   handleClick = e => {
@@ -53,9 +54,16 @@ class Profile extends Component {
       const { activeSymbol, currentPrice } = this.state;
       return (
         <div>
-          <h2>Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}</h2>
+          <h2>
+            Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}
+          </h2>
           <LineChart symbol={activeSymbol} />
-          <Trade user={this.props.user} currentPrice={currentPrice} symbol={activeSymbol} />
+          <Trade
+            portfolio={SAMPLE_PORTFOLIO}
+            user={this.props.user}
+            currentPrice={currentPrice}
+            symbol={activeSymbol}
+          />
           <h2>Buy some new stocks!</h2>
           <StockTable handleClick={this.handleClick} />
         </div>
