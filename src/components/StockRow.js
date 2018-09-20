@@ -42,7 +42,6 @@ export default class StockRow extends Component {
         </td>
       );
     }
-
     return (
       <StyledTr>
         <td>
@@ -55,7 +54,7 @@ export default class StockRow extends Component {
           <SubmitButton
             symbol={this.props.symbol}
             value="See More"
-            currentPrice={this.state.price}
+            price={this.state.closePrice}
             handleClick={this.props.handleClick}
           />
         </td>
