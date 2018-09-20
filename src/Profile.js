@@ -1,26 +1,29 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
+
+// Import components
 import ProgressBar from "./components/ProgressBar";
-import axios from "axios";
-import { SERVER_URL } from "./constants/globals";
-import Accordion from "./components/Accordion";
+import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
+
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
       porfolio: [],
       workingCap: null,
-      symbol: 'GOOG'
+      currentPrice: null,
+      activeSymbol: '',
     };
   }
 
-
-
-
   handleClick = e => {
-    this.setState({ chartDisplayed: e.target.dataset.symbol });
+    console.log(e.target.dataset.currentprice);
+    this.setState({ 
+      activeSymbol: e.target.dataset.symbol,
+      currentPrice: e.target.dataset.currentprice,
+     });
   };
 
   render() {
@@ -28,10 +31,10 @@ class Profile extends Component {
       return (
         <div>
           <ProgressBar workingCapital={110} portfolioTotal={90000} />
-          <LineChart symbol={this.state.symbol} />
-          <Trade symbol={this.state.symbol} />
+          <LineChart symbol={this.state.activeSymbol} currentPrice={this.state.currentPrice} />
+          <Trade currentPrice={this.state.currentPrice} symbol={this.state.activeSymbol} />
           <h2>Buy some new stocks!</h2>
-          <Accordion handleClick={this.handleClick} />
+          <StockTable handleClick={this.handleClick} />
         </div>
       );
     }

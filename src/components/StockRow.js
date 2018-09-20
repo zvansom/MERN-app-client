@@ -54,6 +54,7 @@ export default class StockRow extends Component {
           <SubmitButton
             symbol={this.props.symbol}
             value="See More"
+            currentPrice={this.state.price}
             handleClick={this.props.handleClick}
           />
         </td>
