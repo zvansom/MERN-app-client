@@ -14,7 +14,7 @@ class Profile extends Component {
       porfolio: [],
       workingCap: null,
       currentPrice: null,
-      activeSymbol: '',
+      activeSymbol: 'ATVI',
     };
   }
 
@@ -31,7 +31,7 @@ class Profile extends Component {
       return (
         <div>
           <ProgressBar workingCapital={110} portfolioTotal={90000} />
-          <LineChart symbol={this.state.activeSymbol} currentPrice={this.state.currentPrice} />
+          <LineChart symbol={this.state.activeSymbol} />
           <Trade currentPrice={this.state.currentPrice} symbol={this.state.activeSymbol} />
           <h2>Buy some new stocks!</h2>
           <StockTable handleClick={this.handleClick} />
