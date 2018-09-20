@@ -2,11 +2,6 @@ import React, { Component } from 'react';
 import Chart from 'chart.js';
 import styled from 'styled-components';
 
-// API data
-import { Top100 } from '../constants/Top100';
-import StockList from '../components/StockList';
-
-
 class LineChart extends Component {
   constructor(props){
     super(props);
