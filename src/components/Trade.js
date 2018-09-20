@@ -63,23 +63,27 @@ export default class Trade extends Component {
     let sellmax = Math.floor(Math.random() * 8);
     let buymax = "10";
 
+    const { user, symbol } = this.props;
+    if(user.some(stock => stock.symbol === symbol)) {
+      console.log('user owns this stock');
+    }
     return (
       <StyledDiv>
-        {{ sellmax } && (
+        {(user.some(stock => stock.symbol === symbol) && (
           <div>
             <SubmitButton
               value="Sell"
               fillColor="#ff6f69"
-              onClick={this.hundleSell}
+              handleClick={this.hundleSell}
             />
             <ShareAmount max={sellmax} handleshares={this.handleshares} />
           </div>
-        )}
+        ))}
         <div>
           <SubmitButton
             value="Buy"
             fillColor="#c83349"
-            onClick={this.hundleBuy}
+            handleClick={this.hundleBuy}
           />
           <ShareAmount max={buymax} handleshares={this.handleshares} />
         </div>
