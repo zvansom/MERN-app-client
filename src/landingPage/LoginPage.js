@@ -1,3 +1,5 @@
+// TODO: Find out why the footer is stuck at the top.
+
 import React, { Component } from "react";
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
@@ -39,6 +41,7 @@ class LoginPage extends Component {
   };
 
   render() {
+
     if(this.props.user){
       return (<Redirect to="/profile" />);
     }
