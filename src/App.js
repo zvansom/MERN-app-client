@@ -11,7 +11,7 @@ import "./App.css";
 
 // Import Components
 import LoginPage from "./landingPage/LoginPage";
-import ProgressBar from "./components/ProgressBar";
+// import ProgressBar from "./components/ProgressBar";
 
 import Footer from "./layout/Footer";
 import Home from "./Home";
@@ -65,20 +65,19 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <Router>
-          <div className="container">
+      <Router>
+        <div className="App">
           <Nav user={this.state.user} updateUser={this.getUser} />
-          <Switch>
-            <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
-            <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
-            <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
-          </Switch>
+          <div className="container">
+            <Switch>
+              <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
+              <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
+              <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
+            </Switch>
           </div>
-        </Router>
-        <Footer />
-        {/* <ProgressBar workingCapital={110} portfolioTotal={90000} /> */}
-      </div>
+          <Footer />
+        </div>
+      </Router>
     );
   }
 }
