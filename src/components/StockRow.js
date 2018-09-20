@@ -1,15 +1,12 @@
 import React, { Component } from "react";
 import styled from "styled-components";
-import LineChart from "../chart/LineChart";
-import Toggle from "./Toggle";
-import Trade from "./Trade";
 import SubmitButton from "./SubmitButton";
 
 import { arrowDown } from "react-icons-kit/fa/arrowDown";
 import { arrowUp } from "react-icons-kit/fa/arrowUp";
 import { Icon } from "react-icons-kit";
 
-export default class StockList extends Component {
+export default class StockRow extends Component {
   state = {
     price: null,
     up: Math.round(Math.random() * 100) / 100
@@ -57,6 +54,7 @@ export default class StockList extends Component {
           <SubmitButton
             symbol={this.props.symbol}
             value="See More"
+            currentPrice={this.state.price}
             handleClick={this.props.handleClick}
           />
         </td>
