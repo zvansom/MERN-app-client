@@ -7,7 +7,7 @@ import axios from 'axios';
 
 import { SERVER_URL, STARTING_CAPITAL } from '../constants/globals';
 
-class FormContainer extends Component {
+class NewUserForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -129,10 +129,9 @@ class FormContainer extends Component {
   }
 }
 
-export default FormContainer;
+export default NewUserForm;
 
 const StyledForm = styled.form`
-  margin: 30px auto;
   display: grid;
   grid-template-columns: 1fr;
   gap: 20px;
