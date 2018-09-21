@@ -11,6 +11,7 @@ export default class ShareAmount extends Component {
         placeholder={"#"}
         min="0"
         max={this.props.max}
+        value={this.props.shares}
         step="1"
       />
     );
