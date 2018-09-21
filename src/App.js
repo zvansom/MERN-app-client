@@ -41,7 +41,7 @@ class App extends Component {
         })
         .then(response => {
           // ! testing console log
-          console.log("SUCCESS", response);
+          //console.log("SUCCESS", response);
           this.setState({
             user: response.data.user,
             checkLogin: true

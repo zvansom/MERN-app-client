@@ -5,14 +5,6 @@ import styled from "styled-components";
 import SelectTrade from "./SelectTrade";
 
 export default class Trade extends Component {
-  // constructor(props) {
-  //   super(props);
-  //   this.state = {
-  //     sellMax: "",
-  //     buyMax: ""
-  //   };
-  // }
-
   render() {
     // TODO : Pass these props from user data
     const {

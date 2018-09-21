@@ -8,6 +8,8 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
 
+const INITIALCAPITAL = 100000;
+
 class Profile extends Component {
   constructor(props) {
     super(props);
@@ -44,9 +46,11 @@ class Profile extends Component {
     let symbol = this.state.activeSymbol;
     let tradeValue = this.state.currentPrice * shares;
     let newPortfolio = [...this.state.portfolio] || [{}];
-    let oldCapital = this.state.workingCapital;
     let newCapital = this.state.workingCapital;
     const currentPortfolioValue = this.state.portfolioValue;
+    const oldCapital =
+      this.state.workingCapital + Number(currentPortfolioValue);
+
     [newPortfolio, newCapital] = calculatePortfolio(
       trade,
       shares,
@@ -56,7 +60,7 @@ class Profile extends Component {
       newCapital
     );
     this.setState({
-      portfolio: newPortfolio,
+      portfolio: [...newPortfolio],
       workingCapital: newCapital,
       portfolioValue: (oldCapital - newCapital).toFixed(2),
       shares: 0,
@@ -64,8 +68,6 @@ class Profile extends Component {
     });
 
     console.log("newPortfolio", newPortfolio);
-    console.log("newWorkingCapital", newCapital);
-    console.log("traded shares", this.state.shares);
   };
 
   async componentDidMount() {
@@ -93,7 +95,6 @@ class Profile extends Component {
   }
 
   handleClick = e => {
-    console.log(e.target.dataset.price);
     this.setState({
       activeSymbol: e.target.dataset.symbol,
       currentPrice: e.target.dataset.price
@@ -101,16 +102,11 @@ class Profile extends Component {
   };
 
   render() {
-    console.log("render");
-    console.log("USER", this.props.user);
     if (!this.props.checkLogin) {
-      console.log("user login not finished yet");
       return null;
     } else if (!this.props.user) {
-      console.log("no user");
       return <Redirect to="/" />;
     } else {
-      console.log("user is here");
       const {
         activeSymbol,
         currentPrice,
@@ -121,10 +117,14 @@ class Profile extends Component {
 
       return (
         <div>
-          <ProgressBar portfolioValue={this.state.portfolioValue} />
+          <ProgressBar
+            portfolioValue={this.state.portfolioValue}
+            workingCapital={this.state.workingCapital}
+            initialCapital={INITIALCAPITAL}
+          />
           <p>
-            Portfolio Value <b>${this.state.portfolioValue}</b> | Cash on hand $
-            {this.state.workingCapital}
+            Portfolio Value <b>${this.state.portfolioValue}</b> | Cash on hand{" "}
+            <b>${this.state.workingCapital.toFixed(2)}</b>
           </p>
           <LineChart symbol={activeSymbol} />
           <Trade
@@ -159,25 +159,32 @@ function calculatePortfolio(
 ) {
   if (trade === "Sell") {
     newCapital += tradeValue;
+    let updatedNumShares;
     newPortfolio.forEach(stock => {
       if (stock.symbol === symbol) {
         stock.numShares -= shares;
+        updatedNumShares = stock.numShares;
       }
     });
+    if (updatedNumShares === 0) {
+      newPortfolio = newPortfolio.filter(function(stock) {
+        return stock.symbol !== symbol;
+      });
+    }
   } else {
     newCapital -= tradeValue;
     var ownedShares = newPortfolio.find(function(stock) {
       return stock.symbol === symbol;
     });
 
-    let newSahres = ownedShares
-      ? (ownedShares.numShares += shares)
-      : {
-          symbol: symbol,
-          numShares: shares
-        };
-
-    newPortfolio.push(newSahres);
+    if (ownedShares) {
+      ownedShares.numShares += shares;
+    } else {
+      newPortfolio.push({
+        symbol: symbol,
+        numShares: shares
+      });
+    }
   }
 
   return [newPortfolio, newCapital];
