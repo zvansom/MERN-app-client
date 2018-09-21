@@ -4,24 +4,13 @@ import styled from "styled-components";
 
 class ProgressBar extends Component {
   render() {
-    let initialCapital = 100000;
-    let pvCurrent = this.props.portfolioValue;
-    let pvStart = initialCapital - this.props.workingCapital;
-    let percentage = (pvCurrent / pvStart - 1) * 100;
-    // console.log("percentage", percentage);
-    // console.log("pvCurrent", pvCurrent);
-    // console.log("pvStart", pvStart);
+    let currentValue =
+      Number(this.props.portfolioValue) + Number(this.props.workingCapital);
+    let p = (currentValue / Number(this.props.initialCapital) - 1) * 100;
+    let color = p > 1 ? "#96ceb4" : p === 0 ? "#319cd6" : "#c83349";
+    let lossGain = p > 1 ? p + "%" : p === 0 ? "" : p + "%";
+    let percentage = p > 1 ? p : p === 0 ? "100" : p;
 
-    let lossGain;
-    let color;
-
-    if (percentage > 1) {
-      lossGain = percentage.toFixed(2) + "%";
-      color = "#96ceb4";
-    } else {
-      lossGain = percentage.toFixed(2) + "%";
-      color = "#c83349";
-    }
     return (
       <Progress className="progress-bar">
         <Filler percentage={percentage} fillColor={color} lossGain={lossGain} />
