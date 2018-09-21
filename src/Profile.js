@@ -52,14 +52,18 @@ class Profile extends Component {
     if (this.props.user) {
       const { workingCapital, portfolio } = this.props;
       const { activeSymbol, currentPrice } = this.state;
-      const workingCapitalTemp = 100000;
+      const workingCapitalTemp = 80000;
       return (
         <div>
-          <h2>
-            Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}
-          </h2>
+          <ProgressBar
+            portfolioValue={this.state.portfolioValue}
+            workingCapital={workingCapitalTemp}
+          />
+          <p>
+            Portfolio Value <b>${this.state.portfolioValue}</b> | Cash on hand $
+            <b>{workingCapitalTemp}</b>
+          </p>
           <LineChart symbol={activeSymbol} />
-
           <Trade
             portfolio={SAMPLE_PORTFOLIO}
             currentPrice={this.state.currentPrice}
