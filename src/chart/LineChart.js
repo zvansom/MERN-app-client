@@ -6,6 +6,7 @@ class LineChart extends Component {
   constructor(props){
     super(props);
     this.state = {
+      timeFrame: 30,
       data: [],
     }
   }
@@ -21,7 +22,7 @@ class LineChart extends Component {
   fetchData = symbol => {
     const url = `https://api.iextrading.com/1.0/stock/${
       symbol
-    }/chart/1m`;
+    }/chart/1y`;
     fetch(url)
       .then((response) => {
         return response.json()
@@ -29,31 +30,41 @@ class LineChart extends Component {
         const latestPrice = {
           date: new Date()
         }
-        // console.log('one week data', data.slice(data.length - 7))
           this.setState({
-            data: data //.slice(data.length - 7) last 7 days
+            data
+            //.slice(data.length - this.state.timeFrame), 
+            // data: data.slice(data.length - 90), 
+            // data: data
           }, () => {
-            this.drawGraph();
+            this.drawGraph(data.slice(data.length - this.state.timeFrame));
           });
       }).catch((ex) => {
         console.log('An error occurred while parsing data', ex)
       })
   }
 
+  handleClick = e => { 
+    const { data } = this.state;
+    this.setState({
+      timeFrame: parseInt(e.target.value)
+    })
+    this.drawGraph(data.slice(data.length - e.target.value))
+    console.log(e.target.value)
+  }
+
   componentDidMount() {
     this.fetchData(this.props.symbol);
   }
 
-  drawGraph = () => {
-    const labels = this.state.data.map(point => {
+  drawGraph = (data) => {
+    console.log(data)
+    const labels = data.map(point => {
       return point.label
     })
-    const closePrices = this.state.data.map(point => {
+    const closePrices = data.map(point => {
       return point.close
     })
     closePrices.push(this.props.currentPrice)
-    // console.log('labels only', labels)
-    // console.log('close prices', closePrices)
     var ctx = document.getElementById("lineChart");
     var lineChart = new Chart(ctx, {
       type: 'line',
@@ -118,6 +129,11 @@ class LineChart extends Component {
         <LineCanvas>
           <h2>{this.props.symbol}</h2>
           <canvas id="lineChart"></canvas>
+          <div>
+            <button type="button" value={30} onClick={this.handleClick}>1M</button>
+            <button type="button" value={90} onClick={this.handleClick}>3M</button>
+            <button type="button" value={180} onClick={this.handleClick}>6M</button>
+          </div>
         </LineCanvas>
       );
   }
