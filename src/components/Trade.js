@@ -94,40 +94,43 @@ export default class Trade extends Component {
     console.log("buyMax", buyMax);
     console.log("sellMax", sellMax);
     return (
-      <Table>
-        <tbody>
-          <tr>
-            <td>
-              <SelectTrade
-                name={"trade"}
-                placeholder={"Trade:"}
-                controlFunc={this.handleTradeSelection}
-                options={tradeArray}
-                selectedOption={this.state.trade}
-              />
-            </td>
-            <td>
-              <ShareAmount max={max} handleshares={this.handleShares} x />
-            </td>
-            <td>
-              $ {(this.state.shares * this.props.currentPrice).toFixed(2)}
-            </td>
-            <td>
-              {" "}
-              <SubmitButton
-                value={this.state.trade || "Trade"}
-                fillColor={this.state.trade ? "#405d27" : "#d5e1df"}
-                handleClick={this.hundleTrade}
-              />
-            </td>
-          </tr>
-        </tbody>
-      </Table>
+      <div>
+        <Table>
+          <tbody>
+            <tr>
+              <td>
+                <SelectTrade
+                  name={"trade"}
+                  placeholder={"Trade:"}
+                  controlFunc={this.handleTradeSelection}
+                  options={tradeArray}
+                  selectedOption={this.state.trade}
+                />
+              </td>
+              <td>
+                <ShareAmount max={max} handleshares={this.handleShares} x />
+              </td>
+              <td>
+                $ {(this.state.shares * this.props.currentPrice).toFixed(2)}
+              </td>
+              <td>
+                {" "}
+                <SubmitButton
+                  value={this.state.trade || "Trade"}
+                  fillColor={this.state.trade ? "#405d27" : "#d5e1df"}
+                  handleClick={this.hundleTrade}
+                />
+              </td>
+            </tr>
+          </tbody>
+        </Table>
+      </div>
     );
   }
 }
 
 const Table = styled.table`
+  float: right;
   background: #319cd6;
   border-spacing: 10px;
   > td {

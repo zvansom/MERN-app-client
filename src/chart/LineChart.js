@@ -115,10 +115,10 @@ class LineChart extends Component {
 
   render() {
     return(
-      <LineCanvas>
-        <h2>{this.props.symbol}</h2>
-        <canvas id="lineChart"></canvas>
-      </LineCanvas>
+        <LineCanvas>
+          <h2>{this.props.symbol}</h2>
+          <canvas id="lineChart"></canvas>
+        </LineCanvas>
       );
   }
 }
@@ -126,8 +126,10 @@ class LineChart extends Component {
 export default LineChart;
 
 const LineCanvas = styled.div`
-  width: 800px;
-  height: auto; 
+  color: #015249
+  margin-top: 10px;
+  margin-bottom: 30px;
+  width: auto;
 `;
 
 

@@ -17,13 +17,12 @@ const SubmitButton = props => {
 export default SubmitButton;
 
 const Button = styled.button`
-  background: ${props => props.fillColor || "#0b77c4"};
+  background: #77d9d4;
   color: white;
   font-size: 1em;
   margin: 1em;
   padding: 0.25em 1em;
-  border: 2px solid #0b77c4;
-  border-radius: 3px;
+  border-radius: 20px;
 `;
 
 // <<<<<<< HEAD
@@ -36,3 +35,6 @@ const Button = styled.button`
 //     </Button>
 //   );
 // =======
+
+  // background: ${props => props.fillColor || "#0b77c4"};
+    // border: 2px solid #0b77c4;
