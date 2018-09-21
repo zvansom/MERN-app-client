@@ -11,7 +11,7 @@ import Trade from "./components/Trade";
 const SAMPLE_PORTFOLIO = [
   {
     symbol: "ATVI",
-    numShares: 4000
+    numShares: 4
   },
   {
     symbol: "GOOG",
@@ -41,10 +41,10 @@ class Profile extends Component {
   }
 
   handleClick = e => {
-    console.log(e.target.dataset.currentprice);
+    console.log(e.target.dataset.price);
     this.setState({
       activeSymbol: e.target.dataset.symbol,
-      currentPrice: e.target.dataset.currentprice
+      currentPrice: e.target.dataset.price
     });
   };
 
@@ -52,17 +52,19 @@ class Profile extends Component {
     if (this.props.user) {
       const { workingCapital, portfolio } = this.props;
       const { activeSymbol, currentPrice } = this.state;
+      const workingCapitalTemp = 100000;
       return (
         <div>
           <h2>
             Current Portfolio Value: ${this.state.portfolioValue.toFixed(2)}
           </h2>
           <LineChart symbol={activeSymbol} />
+
           <Trade
             portfolio={SAMPLE_PORTFOLIO}
-            user={this.props.user}
-            currentPrice={currentPrice}
+            currentPrice={this.state.currentPrice}
             symbol={activeSymbol}
+            workingCapital={workingCapitalTemp}
           />
           <h2>Buy some new stocks!</h2>
           <StockTable handleClick={this.handleClick} />
