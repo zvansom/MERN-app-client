@@ -8,9 +8,9 @@ class ProgressBar extends Component {
     let pvCurrent = this.props.portfolioValue;
     let pvStart = initialCapital - this.props.workingCapital;
     let percentage = (pvCurrent / pvStart - 1) * 100;
-    console.log("percentage", percentage);
-    console.log("pvCurrent", pvCurrent);
-    console.log("pvStart", pvStart);
+    // console.log("percentage", percentage);
+    // console.log("pvCurrent", pvCurrent);
+    // console.log("pvStart", pvStart);
 
     let lossGain;
     let color;

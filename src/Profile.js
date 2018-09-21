@@ -8,36 +8,88 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
 
-const SAMPLE_PORTFOLIO = [
-  {
-    symbol: "ATVI",
-    numShares: 4
-  },
-  {
-    symbol: "GOOG",
-    numShares: 60
-  }
-];
-
 class Profile extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      workingCap: null,
+      workingCapital: 0,
+      portfolio: [],
       currentPrice: null,
       activeSymbol: "ATVI",
-      portfolioValue: 0
+      portfolioValue: 0,
+      trade: "",
+      shares: 0
     };
   }
 
-  async componentDidMount() {
-    let currentValues = await SAMPLE_PORTFOLIO.map(stock =>
-      getCurrentValue(stock).then(res => {
-        let currentPortfolio = this.state.portfolioValue;
-        currentPortfolio += res.price * res.numShares;
-        this.setState({ portfolioValue: currentPortfolio });
-      })
+  handleTradeSelection = e => {
+    this.setState({ trade: e.target.value });
+    // console.log("trade", this.state.trade);
+  };
+
+  handleShares = e => {
+    e.preventDefault();
+    this.setState({ shares: e.target.value });
+    // console.log(this.state.shares);
+  };
+
+  hundleTrade = e => {
+    e.preventDefault();
+
+    let trade = this.state.trade;
+    if (!trade) {
+      return;
+    }
+    let shares = Number(this.state.shares);
+    let symbol = this.state.activeSymbol;
+    let tradeValue = this.state.currentPrice * shares;
+    let newPortfolio = [...this.state.portfolio] || [{}];
+    let oldCapital = this.state.workingCapital;
+    let newCapital = this.state.workingCapital;
+    const currentPortfolioValue = this.state.portfolioValue;
+    [newPortfolio, newCapital] = calculatePortfolio(
+      trade,
+      shares,
+      symbol,
+      newPortfolio,
+      tradeValue,
+      newCapital
     );
+    this.setState({
+      portfolio: newPortfolio,
+      workingCapital: newCapital,
+      portfolioValue: (oldCapital - newCapital).toFixed(2),
+      shares: 0,
+      trade: ""
+    });
+
+    console.log("newPortfolio", newPortfolio);
+    console.log("newWorkingCapital", newCapital);
+    console.log("traded shares", this.state.shares);
+  };
+
+  async componentDidMount() {
+    if (this.props.checkLogin && this.props.user) {
+      const { workingCapital, portfolio } = this.props.user;
+      let currentValues = await portfolio.map(stock =>
+        getCurrentValue(stock).then(res => {
+          let currentPortfolio = this.state.portfolioValue;
+          currentPortfolio += res.price * res.numShares;
+          this.setState({ portfolioValue: currentPortfolio });
+        })
+      );
+
+      const url = `https://api.iextrading.com/1.0/stock/${
+        this.state.activeSymbol
+      }/ohlc`;
+      const response = await fetch(url);
+      const parse = await response.json();
+      this.setState({
+        workingCapital,
+        portfolio,
+        currentPrice: parse.close.price
+      });
+    }
   }
 
   handleClick = e => {
@@ -49,34 +101,84 @@ class Profile extends Component {
   };
 
   render() {
-    if (this.props.user) {
-      const { workingCapital, portfolio } = this.props;
-      const { activeSymbol, currentPrice } = this.state;
-      const workingCapitalTemp = 80000;
+    console.log("render");
+    console.log("USER", this.props.user);
+    if (!this.props.checkLogin) {
+      console.log("user login not finished yet");
+      return null;
+    } else if (!this.props.user) {
+      console.log("no user");
+      return <Redirect to="/" />;
+    } else {
+      console.log("user is here");
+      const {
+        activeSymbol,
+        currentPrice,
+        trade,
+        shares,
+        portfolio
+      } = this.state;
+
       return (
         <div>
-          <ProgressBar
-            portfolioValue={this.state.portfolioValue}
-            workingCapital={workingCapitalTemp}
-          />
+          <ProgressBar portfolioValue={this.state.portfolioValue} />
           <p>
             Portfolio Value <b>${this.state.portfolioValue}</b> | Cash on hand $
-            <b>{workingCapitalTemp}</b>
+            {this.state.workingCapital}
           </p>
           <LineChart symbol={activeSymbol} />
           <Trade
-            portfolio={SAMPLE_PORTFOLIO}
-            currentPrice={this.state.currentPrice}
+            portfolio={portfolio}
+            currentPrice={currentPrice}
             symbol={activeSymbol}
-            workingCapital={workingCapitalTemp}
+            trade={trade}
+            shares={shares}
+            handleShares={this.handleShares}
+            handleTradeSelection={this.handleTradeSelection}
+            hundleTrade={this.hundleTrade}
           />
+
           <h2>Buy some new stocks!</h2>
           <StockTable handleClick={this.handleClick} />
         </div>
       );
     }
-    return <Redirect to="/" />;
   }
 }
 
 export default Profile;
+
+// Helpers
+function calculatePortfolio(
+  trade,
+  shares,
+  symbol,
+  newPortfolio,
+  tradeValue,
+  newCapital
+) {
+  if (trade === "Sell") {
+    newCapital += tradeValue;
+    newPortfolio.forEach(stock => {
+      if (stock.symbol === symbol) {
+        stock.numShares -= shares;
+      }
+    });
+  } else {
+    newCapital -= tradeValue;
+    var ownedShares = newPortfolio.find(function(stock) {
+      return stock.symbol === symbol;
+    });
+
+    let newSahres = ownedShares
+      ? (ownedShares.numShares += shares)
+      : {
+          symbol: symbol,
+          numShares: shares
+        };
+
+    newPortfolio.push(newSahres);
+  }
+
+  return [newPortfolio, newCapital];
+}
