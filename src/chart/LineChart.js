@@ -32,9 +32,6 @@ class LineChart extends Component {
         }
           this.setState({
             data
-            //.slice(data.length - this.state.timeFrame), 
-            // data: data.slice(data.length - 90), 
-            // data: data
           }, () => {
             this.drawGraph(data.slice(data.length - this.state.timeFrame));
           });
