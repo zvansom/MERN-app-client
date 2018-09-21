@@ -17,6 +17,7 @@ export default class StockRow extends Component {
       this.props.symbol
     }/ohlc`;
     const response = await fetch(url);
+    console.log('response throwing errors - async issue?', response);
     const parse = await response.json();
 
     this.setState({
@@ -34,7 +35,7 @@ export default class StockRow extends Component {
     let arrow;
     if (openPrice < closePrice) {
       arrow = (
-        <td style={{ color: "#4040a1" }}>
+        <td style={{ color: "#57bc90" }}>
           {percentChange}%<Icon size={25} icon={arrowUp} />
         </td>
       );
@@ -68,6 +69,7 @@ export default class StockRow extends Component {
 
 const StyledTr = styled.tr`
   > td {
-    border: 1px solid black;
+    border: 1px solid #ddd;
+    padding: 8px;
   }
 `;

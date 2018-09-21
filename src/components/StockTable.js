@@ -10,9 +10,10 @@ export default class StockTable extends Component {
       <StyledTable>
         <thead>
           <tr>
-            <th>Stock Name</th>
-            <th>Share Value</th>
-            <th>Loss | Gain</th>
+            <StyledTh>Stock Name</StyledTh>
+            <StyledTh>Share Value</StyledTh>
+            <StyledTh>Loss | Gain</StyledTh>
+            <StyledTh> </StyledTh>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +33,44 @@ export default class StockTable extends Component {
 }
 
 const StyledTable = styled.table`
-  border: 3px solid black;
-  background: #319cd6;
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  color: #015249;
+  border-collapse: collapse;
+  width: 100%;
+  border: 1px solid #ddd;
+  padding: 8px;
+  background: white;
+  tr:nth-child(even){background-color: #f2f2f2};
+  tr:hover {background-color: #ddd;};
 `;
+
+const StyledTh = styled.th`
+  padding-top: 12px;
+  padding-bottom: 12px;
+  background-color: #77d9d4;
+  color: white;
+`;
+
+// const StyledTr = styled.tr`
+//   tr:nth-child(even){background-color: #f2f2f2;
+// `;
+
+// #customers tr:nth-child(even){background-color: #f2f2f2;}
+
+// #customers tr:hover {background-color: #ddd;}
+
+// #customers th {
+//     padding-top: 12px;
+//     padding-bottom: 12px;
+//     text-align: left;
+//     background-color: #4CAF50;
+//     color: white;
+
+
+
+
+
+
+
+
+

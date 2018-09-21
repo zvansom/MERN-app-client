@@ -1,7 +1,8 @@
 html,
 body {
   height: 100vh;
-  background: #319cd6;
+  background: white;
+  /*background: #319cd6;*/
 }
 
 nav {
@@ -20,6 +21,14 @@ nav a {
 
 nav a:hover {
   color: #319cd6;
+}
+
+p {
+  color: #015249;
+}
+
+h2 {
+  color: #015249;
 }
 
 .App {
