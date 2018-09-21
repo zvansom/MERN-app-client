@@ -4,7 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import axios from "axios";
 
 // Import local dependencies
-import {SERVER_URL} from "./constants/globals";
+import { SERVER_URL } from "./constants/globals";
 
 //  Import styles
 import "./App.css";
@@ -20,7 +20,8 @@ import Profile from "./Profile";
 
 class App extends Component {
   state = {
-    user: null
+    user: null,
+    checkLogin: false
   };
 
   componentDidMount = () => {
@@ -42,7 +43,8 @@ class App extends Component {
           // ! testing console log
           console.log("SUCCESS", response);
           this.setState({
-            user: response.data.user
+            user: response.data.user,
+            checkLogin: true
           });
         })
         .catch(err => {
@@ -50,7 +52,8 @@ class App extends Component {
           console.log("response", err.response);
           localStorage.removeItem("mernToken");
           this.setState({
-            user: null
+            user: null,
+            checkLogin: true
           });
         });
     } else {
@@ -58,7 +61,8 @@ class App extends Component {
       // TODO: Make pretty alert to user to re-login
       console.log("No token was found");
       this.setState({
-        user: null
+        user: null,
+        checkLogin: true
       });
     }
   };
@@ -70,9 +74,28 @@ class App extends Component {
           <Nav user={this.state.user} updateUser={this.getUser} />
           <div className="container">
             <Switch>
-              <Route exact path="/" component={() => (<Home user={this.state.user} updateUser={this.getUser}  />) } />
-              <Route path="/login" component={ () => (<LoginPage user={this.state.user} updateUser={this.getUser} />) } />
-              <Route path="/profile" component={ () => (<Profile user={this.state.user} />) } />
+              <Route
+                exact
+                path="/"
+                component={() => (
+                  <Home user={this.state.user} updateUser={this.getUser} />
+                )}
+              />
+              <Route
+                path="/login"
+                component={() => (
+                  <LoginPage user={this.state.user} updateUser={this.getUser} />
+                )}
+              />
+              <Route
+                path="/profile"
+                component={() => (
+                  <Profile
+                    user={this.state.user}
+                    checkLogin={this.state.checkLogin}
+                  />
+                )}
+              />
             </Switch>
           </div>
           <Footer />
