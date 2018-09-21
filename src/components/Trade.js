@@ -1,99 +1,136 @@
 import React, { Component } from "react";
 import SubmitButton from "./SubmitButton";
 import ShareAmount from "./ShareAmount";
-import styled from 'styled-components';
+import styled from "styled-components";
+import SelectTrade from "./SelectTrade";
 
 export default class Trade extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      trade: "",
       shares: 0,
-      portfolio: [{ abc: 15, www: 20 }], //TODO: this should be actual user data if existing user
-      workingCaptal: 100000, //TODO: this should be actual user data if existing user
-      sharePrice: 1000, //TODO: this should be actual user data if existing user
-      company: "abc" //TODO: this should be actual user data if existing user
+      sellMax: "",
+      buyMax: ""
     };
   }
 
-  handleshares = e => {
+  handleShares = e => {
     e.preventDefault();
     this.setState({ shares: e.target.value });
+    console.log(this.state.shares);
   };
 
-  hundleSell = e => {
-    e.preventDefault();
-    // Update user potfolio
-    let shares = this.state.shares;
-    let newPortfolio = this.state.portfolio[0] || {};
-    let totalShares = newPortfolio[this.state.company] - shares;
-    newPortfolio[this.state.company] = totalShares;
-    // Update user working capital
-    let totalGain = this.state.sharePrice * shares;
-    let newWorkingCapital = this.state.workingCaptal + totalGain;
-    this.setState({
-      portfolio: newPortfolio,
-      workingCaptal: newWorkingCapital
-    });
-    console.log("portfolio", this.state.portfolio);
-    console.log("workingCaptal", newWorkingCapital);
+  handleTradeSelection = e => {
+    this.setState({ trade: e.target.value });
+    console.log("trade", this.state.trade);
   };
 
-  hundleBuy = e => {
+  hundleTrade = e => {
     e.preventDefault();
-    // Update user potfolio
-    let shares = this.state.shares;
-    let newPortfolio = this.state.portfolio[0] || {};
-    let totalShares = newPortfolio[this.state.company]
-      ? newPortfolio[this.state.company] + shares
-      : shares;
-    newPortfolio[this.state.company] = totalShares;
-    // Update user working capital
-    let totalSpend = this.state.sharePrice * shares;
-    let newWorkingCapital = this.state.workingCaptal - totalSpend;
+    if (!this.state.trade) {
+      return;
+    }
+    let shares = Number(this.state.shares);
+    let symbol = this.props.symbol;
+    let tradeValue = this.props.currentPrice * shares;
+    let newPortfolio = [...this.props.portfolio] || [{}];
+    let newCapital = this.props.workingCapital;
+    if (this.state.trade === "Sell") {
+      newCapital += tradeValue;
+      newPortfolio.forEach(stock => {
+        if (stock.symbol === symbol) {
+          stock.numShares -= shares;
+        }
+      });
+    } else {
+      newCapital -= tradeValue;
+      var ownedShares = newPortfolio.find(function(stock) {
+        return stock.symbol === symbol;
+      });
+
+      let newSahres = ownedShares
+        ? (ownedShares.numShares += shares)
+        : { [symbol]: shares };
+
+      newPortfolio.push(newSahres);
+    }
+
     this.setState({
       portfolio: newPortfolio,
-      workingCaptal: newWorkingCapital
+      workingCaptal: newCapital,
+      shares: 0,
+      trade: ""
     });
-    console.log("workingCaptal", this.state.workingCaptal);
-    console.log("portfolio", this.state.portfolio);
+
+    console.log("newPortfolio", newPortfolio);
+    console.log("newWorkingCapital", newCapital);
+    console.log(this.state.trade, this.state.shares);
   };
 
   render() {
     // TODO : Pass these props from user data
-    let sellmax = Math.floor(Math.random() * 8);
-    let buymax = "10";
+    const { portfolio, symbol } = this.props;
+    let tradeArray = ["Buy"];
+    let buyMax;
+    var ownedShares = this.props.portfolio.find(function(stock) {
+      return stock.symbol === symbol;
+    });
 
-    const { user, symbol } = this.props;
-    if(user.some(stock => stock.symbol === symbol)) {
-      console.log('user owns this stock');
+    let sellMax = ownedShares ? ownedShares.numShares : "";
+    if (this.props.currentPrice) {
+      buyMax = Math.floor(this.props.workingCapital / this.props.currentPrice);
+      tradeArray.push("Sell");
+    } else {
+      buyMax = 1000; //TODO: we need actual values on load??
     }
+    let max =
+      this.state.trade === ""
+        ? 0
+        : this.state.trade === "Sell"
+          ? sellMax
+          : buyMax;
+    console.log("max", max);
+    console.log("buyMax", buyMax);
+    console.log("sellMax", sellMax);
     return (
-      <StyledDiv>
-        {(user.some(stock => stock.symbol === symbol) && (
-          <div>
-            <SubmitButton
-              value="Sell"
-              fillColor="#ff6f69"
-              handleClick={this.hundleSell}
-            />
-            <ShareAmount max={sellmax} handleshares={this.handleshares} />
-          </div>
-        ))}
-        <div>
-          <SubmitButton
-            value="Buy"
-            fillColor="#c83349"
-            handleClick={this.hundleBuy}
-          />
-          <ShareAmount max={buymax} handleshares={this.handleshares} />
-        </div>
-      </StyledDiv>
+      <Table>
+        <tbody>
+          <tr>
+            <td>
+              <SelectTrade
+                name={"trade"}
+                placeholder={"Trade:"}
+                controlFunc={this.handleTradeSelection}
+                options={tradeArray}
+                selectedOption={this.state.trade}
+              />
+            </td>
+            <td>
+              <ShareAmount max={max} handleshares={this.handleShares} x />
+            </td>
+            <td>
+              $ {(this.state.shares * this.props.currentPrice).toFixed(2)}
+            </td>
+            <td>
+              {" "}
+              <SubmitButton
+                value={this.state.trade || "Trade"}
+                fillColor={this.state.trade ? "#405d27" : "#d5e1df"}
+                handleClick={this.hundleTrade}
+              />
+            </td>
+          </tr>
+        </tbody>
+      </Table>
     );
   }
 }
 
-const StyledDiv = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 1fr);
-  grid-auto-flow: column;
+const Table = styled.table`
+  background: #319cd6;
+  border-spacing: 10px;
+  > td {
+    padding: 6px;
+  }
 `;

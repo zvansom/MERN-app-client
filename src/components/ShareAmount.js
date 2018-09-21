@@ -4,16 +4,15 @@ import InputField from "./InputField";
 export default class ShareAmount extends Component {
   render() {
     return (
-        <InputField
-          name={"shares"}
-          type={"number"}
-          placeholder={"0"}
-          min={"0"}
-          max={this.props.max}
-          step={"1"}
-          onChange={this.props.handleshares}
-        />
-      
+      <input
+        className="shares"
+        type="number"
+        onChange={this.props.handleshares}
+        placeholder={"#"}
+        min="0"
+        max={this.props.max}
+        step="1"
+      />
     );
   }
 }
