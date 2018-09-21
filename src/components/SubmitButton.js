@@ -24,17 +24,3 @@ const Button = styled.button`
   padding: 0.25em 1em;
   border-radius: 20px;
 `;
-
-// <<<<<<< HEAD
-//   return (
-//     <Button
-//       fillColor={props.fillColor}
-//       onClick={props.onClick ? props.onClick : null}
-//     >
-//       {props.value}
-//     </Button>
-//   );
-// =======
-
-  // background: ${props => props.fillColor || "#0b77c4"};
-    // border: 2px solid #0b77c4;

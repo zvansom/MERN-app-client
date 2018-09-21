@@ -17,7 +17,7 @@ export default class StockRow extends Component {
       this.props.symbol
     }/ohlc`;
     const response = await fetch(url);
-    console.log('response throwing errors - async issue?', response);
+    //console.log('response throwing errors - async issue?', response);
     const parse = await response.json();
 
     this.setState({
