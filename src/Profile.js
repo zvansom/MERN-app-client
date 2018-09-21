@@ -44,7 +44,9 @@ class Profile extends Component {
     let symbol = this.state.activeSymbol;
     let tradeValue = this.state.currentPrice * shares;
     let newPortfolio = [...this.state.portfolio] || [{}];
+    let oldCapital = this.state.workingCapital;
     let newCapital = this.state.workingCapital;
+    const currentPortfolioValue = this.state.portfolioValue;
     [newPortfolio, newCapital] = calculatePortfolio(
       trade,
       shares,
@@ -55,7 +57,8 @@ class Profile extends Component {
     );
     this.setState({
       portfolio: newPortfolio,
-      workingCaptal: newCapital,
+      workingCapital: newCapital,
+      portfolioValue: (oldCapital - newCapital).toFixed(2),
       shares: 0,
       trade: ""
     });
@@ -130,6 +133,9 @@ class Profile extends Component {
             symbol={activeSymbol}
             trade={trade}
             shares={shares}
+            handleShares={this.handleShares}
+            handleTradeSelection={this.handleTradeSelection}
+            hundleTrade={this.hundleTrade}
           />
 
           <h2>Buy some new stocks!</h2>
@@ -173,5 +179,6 @@ function calculatePortfolio(
 
     newPortfolio.push(newSahres);
   }
+
   return [newPortfolio, newCapital];
 }
