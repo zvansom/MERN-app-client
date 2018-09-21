@@ -73,17 +73,27 @@ export default class Trade extends Component {
     // TODO : Pass these props from user data
     const { portfolio, symbol } = this.props;
     let tradeArray = ["Buy"];
-    let buyMax = 1000;
+    let buyMax;
     var ownedShares = this.props.portfolio.find(function(stock) {
       return stock.symbol === symbol;
     });
 
     let sellMax = ownedShares ? ownedShares.numShares : "";
-    if (sellMax) {
+    if (this.props.currentPrice) {
       buyMax = Math.floor(this.props.workingCapital / this.props.currentPrice);
       tradeArray.push("Sell");
+    } else {
+      buyMax = 1000; //TODO: we need actual values on load??
     }
-
+    let max =
+      this.state.trade === ""
+        ? 0
+        : this.state.trade === "Sell"
+          ? sellMax
+          : buyMax;
+    console.log("max", max);
+    console.log("buyMax", buyMax);
+    console.log("sellMax", sellMax);
     return (
       <Table>
         <tbody>
@@ -98,10 +108,7 @@ export default class Trade extends Component {
               />
             </td>
             <td>
-              <ShareAmount
-                max={this.state.buyMax}
-                handleshares={this.handleShares}
-              />
+              <ShareAmount max={max} handleshares={this.handleShares} x />
             </td>
             <td>
               $ {(this.state.shares * this.props.currentPrice).toFixed(2)}
