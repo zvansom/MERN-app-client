@@ -7,7 +7,6 @@ export default class ShareAmount extends Component {
       <input
         className="shares"
         type="number"
-        value={this.props.value}
         onChange={this.props.handleshares}
         placeholder={"#"}
         min="0"
