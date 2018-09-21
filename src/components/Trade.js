@@ -9,7 +9,6 @@ export default class Trade extends Component {
     super(props);
     this.state = {
       trade: "",
-      tradeArray: [],
       shares: 0,
       sellMax: "",
       buyMax: ""
