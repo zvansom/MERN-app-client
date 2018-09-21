@@ -26,9 +26,23 @@ class Profile extends Component {
       workingCap: null,
       currentPrice: null,
       activeSymbol: "ATVI",
-      portfolioValue: 0
+      portfolioValue: 0,
+      history: SAMPLE_PORTFOLIO
     };
   }
+  // handlePortfolio = e => {
+  //   const history = this.state.history;
+  //   const current = history[history.length - 1];
+  //   const squares = current.squares.slice();
+
+  //   squares[i] = this.state.xIsNext ? 'X' : 'O';
+  //   this.setState({
+  //     history: history.concat([{
+  //       trade: trade
+  //     }]),
+  //     xIsNext: !this.state.xIsNext,
+  //   });
+  // };
 
   async componentDidMount() {
     let currentValues = await SAMPLE_PORTFOLIO.map(stock =>
@@ -38,6 +52,15 @@ class Profile extends Component {
         this.setState({ portfolioValue: currentPortfolio });
       })
     );
+
+    const url = `https://api.iextrading.com/1.0/stock/${
+      this.state.activeSymbol
+    }/ohlc`;
+    const response = await fetch(url);
+    const parse = await response.json();
+    this.setState({
+      currentPrice: parse.close.price
+    });
   }
 
   handleClick = e => {
