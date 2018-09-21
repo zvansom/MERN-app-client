@@ -9,7 +9,7 @@ import { Icon } from "react-icons-kit";
 export default class StockRow extends Component {
   state = {
     closePrice: null,
-    openPrice: null,
+    openPrice: null
   };
 
   async componentDidMount() {
@@ -21,13 +21,16 @@ export default class StockRow extends Component {
 
     this.setState({
       closePrice: parse.close.price,
-      openPrice: parse.open.price,
+      openPrice: parse.open.price
     });
   }
 
   render() {
     const { openPrice, closePrice } = this.state;
-    const percentChange = (((closePrice - openPrice) / openPrice) * 100).toFixed(2);
+    const percentChange = (
+      ((closePrice - openPrice) / openPrice) *
+      100
+    ).toFixed(2);
     let arrow;
     if (openPrice < closePrice) {
       arrow = (
