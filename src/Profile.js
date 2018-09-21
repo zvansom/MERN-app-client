@@ -8,6 +8,9 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
 
+import { SERVER_URL } from './constants/globals';
+import axios from 'axios';
+
 const INITIALCAPITAL = 100000;
 
 class Profile extends Component {
@@ -66,6 +69,8 @@ class Profile extends Component {
       shares: 0,
       trade: ""
     });
+
+    axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {portfolio: newPortfolio, workingCapital: newCapital});
 
     console.log("newPortfolio", newPortfolio);
   };
