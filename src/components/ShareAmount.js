@@ -1,19 +1,28 @@
 import React, { Component } from "react";
-import InputField from "./InputField";
+import styled from "styled-components";
 
-export default class ShareAmount extends Component {
+class ShareAmount extends Component {
   render() {
+    let tradeLimit = this.props.shares < this.props.max;
     return (
-      <input
-        className="shares"
-        type="number"
-        onChange={this.props.handleshares}
-        placeholder={"#"}
-        min="0"
-        max={this.props.max}
-        value={this.props.shares}
-        step="1"
-      />
+      <div>
+        <button onClick={tradeLimit ? this.props.incrementShares : null}>
+          +
+        </button>
+        <Button>{this.props.shares}</Button>
+        <button onClick={tradeLimit ? this.props.decreaseShares : null}>
+          -
+        </button>
+      </div>
     );
   }
 }
+
+export default ShareAmount;
+
+const Button = styled.button`
+  background: #77d9d4;
+  color: white;
+  font-size: 1em;
+  padding: 0.25em 1em;
+`;
