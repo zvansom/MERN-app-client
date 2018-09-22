@@ -47,6 +47,7 @@ export default class Trade extends Component {
 
 const Table = styled.table`
   float: right;
+  color: #000;
   background: #fff;
   border-radius: 20px;
   border-spacing: 10px;
