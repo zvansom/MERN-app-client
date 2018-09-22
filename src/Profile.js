@@ -22,13 +22,15 @@ class Profile extends Component {
       currentPrice: null,
       activeSymbol: "ATVI",
       portfolioValue: 0,
+
+      
       trade: "",
       shares: 0
     };
   }
 
   handleTradeSelection = e => {
-    this.setState({ trade: e.target.value });
+    this.setState({ trade: e.target.value});
   };
 
   incrementShares = e => {
@@ -45,41 +47,44 @@ class Profile extends Component {
 
   hundleTrade = e => {
     e.preventDefault();
+    console.log(e.target)
 
-    let trade = this.state.trade;
-    if (!trade) {
-      return;
-    }
-    let shares = Number(this.state.shares);
-    let symbol = this.state.activeSymbol;
-    let tradeValue = this.state.currentPrice * shares;
-    let newPortfolio = [...this.state.portfolio] || [{}];
-    let newCapital = this.state.workingCapital;
-    const currentPortfolioValue = this.state.portfolioValue;
-    const oldCapital =
-      this.state.workingCapital + Number(currentPortfolioValue);
+    // let trade = this.state.trade;
+    // if (!trade) {
+    //   return;
+    // }
+    // let shares = Number(this.state.shares);
+    // let symbol = this.state.activeSymbol;
+    // let tradeValue = this.state.currentPrice * shares;
+    // let newPortfolio = [...this.state.portfolio] || [{}];
+    // let newCapital = this.state.workingCapital;
+    // const currentPortfolioValue = this.state.portfolioValue;
+    // const oldCapital =
+    //   this.state.workingCapital + Number(currentPortfolioValue);
 
-    [newPortfolio, newCapital] = calculatePortfolio(
-      trade,
-      shares,
-      symbol,
-      newPortfolio,
-      tradeValue,
-      newCapital
-    );
-    this.setState({
-      portfolio: [...newPortfolio],
-      workingCapital: newCapital,
-      portfolioValue: (oldCapital - newCapital).toFixed(2),
-      shares: 0,
-      trade: ""
-    });
+    // [newPortfolio, newCapital] = calculatePortfolio(
+    //   trade,
+    //   shares,
+    //   symbol,
+    //   newPortfolio,
+    //   tradeValue,
+    //   newCapital
+    // );
+    // this.setState({
+    //   portfolio: [...newPortfolio],
+    //   workingCapital: newCapital,
+    //   portfolioValue: (oldCapital - newCapital).toFixed(2),
+    //   shares: 0,
+    //   trade: 'Buy',
+    // });
 
-    axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {
-      portfolio: newPortfolio,
-      workingCapital: newCapital
-    });
+    // axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {
+    //   portfolio: newPortfolio,
+    //   workingCapital: newCapital
+    // });
   };
+
+
 
   async componentDidMount() {
     if (this.props.checkLogin && this.props.user) {
@@ -147,6 +152,7 @@ class Profile extends Component {
           </p>
           <LineChart symbol={activeSymbol} />
           <TradeForm
+            handleTradeSelection={this.handleTradeSelection}
             max={max}
             currentPrice={currentPrice}
             trade={trade}
@@ -154,7 +160,7 @@ class Profile extends Component {
             decreaseShares={this.decreaseShares}
             incrementShares={this.incrementShares}
             handleTradeSelection={this.handleTradeSelection}
-            hundleTrade={this.hundleTrade}
+            handleTrade={this.hundleTrade}
             tradeArray={tradeArray}
           />
 
