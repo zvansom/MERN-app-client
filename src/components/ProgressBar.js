@@ -8,8 +8,9 @@ class ProgressBar extends Component {
       Number(this.props.portfolioValue) + Number(this.props.workingCapital);
     let p = (currentValue / Number(this.props.initialCapital) - 1) * 100;
     let color = p > 1 ? "#96ceb4" : p === 0 ? "#319cd6" : "#c83349";
-    let lossGain = p > 1 ? p + "%" : p === 0 ? "" : p + "%";
-    let percentage = p > 1 ? p : p === 0 ? "100" : p;
+    let lossGain =
+      p > 1 ? p.toFixed(2) + "%" : p === 0 ? "" : p.toFixed(2) + "%";
+    let percentage = p > 1 ? p.toFixed(2) : p === 0 ? "100" : p.toFixed(2);
 
     return (
       <Progress className="progress-bar">
