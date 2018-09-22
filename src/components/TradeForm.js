@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import SubmitButton from "./SubmitButton";
 import ShareAmount from "./ShareAmount";
 import styled from "styled-components";
-import SelectTrade from "./SelectTrade";
 
 export default class TradeForm extends Component {
   render() {
@@ -10,13 +9,10 @@ export default class TradeForm extends Component {
 
     return (
       <StyledTradeForm>
-        <SelectTrade
-          name={"trade"}
-          placeholder={"Trade:"}
-          controlFunc={this.props.handleTradeSelection}
-          options={tradeArray}
-          selectedOption={trade}
-        />
+        <select className="form-select">
+          <option value="Buy">Buy</option>
+          <option value="Sell">Sell</option>
+        </select>
         <ShareAmount
           max={max}
           shares={this.props.shares}
@@ -37,6 +33,7 @@ export default class TradeForm extends Component {
 
 const StyledTradeForm = styled.form`
   color: #000;
+  display: inline-block;
   background: #fff;
   border-radius: 20px;
   border-spacing: 10px;
