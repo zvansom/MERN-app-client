@@ -3,20 +3,20 @@ import styled from "styled-components";
 
 export default class TradeForm extends Component {
   render() {
-    const { trade, shares, currentPrice, tradeArray, max } = this.props;
+    const { trade, handleTradeSelection, shares, currentPrice, decreaseShares, incrementShares, handleTrade } = this.props;
 
     return (
-      <StyledTradeForm>
+      <StyledTradeForm onSubmit={handleTrade}>
         <div className="form-element">
-          <select className="form-select">
+          <select className="form-select" value={trade} onChange={handleTradeSelection}>
             <option value="Buy">Buy</option>
             <option value="Sell">Sell</option>
           </select>
         </div>
         <div className="form-element">
-          <button> - </button>
+          <button onClick={decreaseShares}> - </button>
           <p>{this.props.shares}</p>
-          <button> + </button>
+          <button onClick={incrementShares}> + </button>
         </div>
         {(shares * currentPrice).toFixed(2)}
         {" "}
