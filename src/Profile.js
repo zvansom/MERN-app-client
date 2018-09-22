@@ -8,8 +8,8 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import Trade from "./components/Trade";
 
-import { SERVER_URL } from './constants/globals';
-import axios from 'axios';
+import { SERVER_URL } from "./constants/globals";
+import axios from "axios";
 
 const INITIALCAPITAL = 100000;
 
@@ -29,13 +29,18 @@ class Profile extends Component {
 
   handleTradeSelection = e => {
     this.setState({ trade: e.target.value });
-    // console.log("trade", this.state.trade);
   };
 
-  handleShares = e => {
+  incrementShares = e => {
     e.preventDefault();
-    this.setState({ shares: e.target.value });
-    // console.log(this.state.shares);
+    this.setState({ shares: this.state.shares + 1 });
+  };
+
+  decreaseShares = e => {
+    e.preventDefault();
+    if (this.state.shares > 0) {
+      this.setState({ shares: this.state.shares - 1 });
+    }
   };
 
   hundleTrade = e => {
@@ -70,9 +75,10 @@ class Profile extends Component {
       trade: ""
     });
 
-    axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {portfolio: newPortfolio, workingCapital: newCapital});
-
-    console.log("newPortfolio", newPortfolio);
+    axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {
+      portfolio: newPortfolio,
+      workingCapital: newCapital
+    });
   };
 
   async componentDidMount() {
@@ -91,6 +97,7 @@ class Profile extends Component {
       }/ohlc`;
       const response = await fetch(url);
       const parse = await response.json();
+
       this.setState({
         workingCapital,
         portfolio,
@@ -120,6 +127,13 @@ class Profile extends Component {
         portfolio
       } = this.state;
 
+      let buyMax = Math.floor(this.state.workingCapital / currentPrice);
+
+      let ownedShares = portfolio.find(stock => stock.symbol === activeSymbol);
+      const tradeArray = ownedShares ? ["Buy", "Sell"] : ["Buy"];
+      let sellMax = ownedShares ? ownedShares.numShares : "";
+      const max = trade === "" ? 0 : trade === "Sell" ? sellMax : buyMax;
+      //this.setTrademax(max);
       return (
         <div>
           <ProgressBar
@@ -133,14 +147,15 @@ class Profile extends Component {
           </p>
           <LineChart symbol={activeSymbol} />
           <Trade
-            portfolio={portfolio}
+            max={max}
             currentPrice={currentPrice}
-            symbol={activeSymbol}
             trade={trade}
             shares={shares}
-            handleShares={this.handleShares}
+            decreaseShares={this.decreaseShares}
+            incrementShares={this.incrementShares}
             handleTradeSelection={this.handleTradeSelection}
             hundleTrade={this.hundleTrade}
+            tradeArray={tradeArray}
           />
 
           <h2>Buy some new stocks!</h2>
@@ -153,7 +168,7 @@ class Profile extends Component {
 
 export default Profile;
 
-// Helpers
+// ///// Helpers
 function calculatePortfolio(
   trade,
   shares,
@@ -162,35 +177,31 @@ function calculatePortfolio(
   tradeValue,
   newCapital
 ) {
-  if (trade === "Sell") {
-    newCapital += tradeValue;
-    let updatedNumShares;
-    newPortfolio.forEach(stock => {
-      if (stock.symbol === symbol) {
-        stock.numShares -= shares;
-        updatedNumShares = stock.numShares;
-      }
-    });
-    if (updatedNumShares === 0) {
-      newPortfolio = newPortfolio.filter(function(stock) {
-        return stock.symbol !== symbol;
-      });
-    }
-  } else {
-    newCapital -= tradeValue;
-    var ownedShares = newPortfolio.find(function(stock) {
-      return stock.symbol === symbol;
-    });
+  var ownedShares = newPortfolio.find(function(stock) {
+    return stock.symbol === symbol;
+  });
 
-    if (ownedShares) {
-      ownedShares.numShares += shares;
-    } else {
-      newPortfolio.push({
-        symbol: symbol,
-        numShares: shares
-      });
-    }
+  let sell = trade === "Sell";
+  newCapital = sell ? (newCapital += tradeValue) : (newCapital -= tradeValue);
+
+  let newNumShares =
+    sell && ownedShares.numShares > shares
+      ? (ownedShares.numShares -= shares)
+      : ownedShares
+        ? (ownedShares.numShares += shares)
+        : shares;
+
+  if (ownedShares) {
+    ownedShares.numShares = newNumShares;
+  } else {
+    newPortfolio.push({
+      symbol: symbol,
+      numShares: shares
+    });
   }
 
+  newPortfolio = newPortfolio.filter(function(stock) {
+    return stock.numShares !== 0;
+  });
   return [newPortfolio, newCapital];
 }
