@@ -6,7 +6,7 @@ import getCurrentValue from "./getCurrentValue";
 import ProgressBar from "./components/ProgressBar";
 import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
-import Trade from "./components/Trade";
+import TradeForm from "./components/TradeForm";
 
 import { SERVER_URL } from "./constants/globals";
 import axios from "axios";
@@ -146,7 +146,7 @@ class Profile extends Component {
             <b>${this.state.workingCapital.toFixed(2)}</b>
           </p>
           <LineChart symbol={activeSymbol} />
-          <Trade
+          <TradeForm
             max={max}
             currentPrice={currentPrice}
             trade={trade}
