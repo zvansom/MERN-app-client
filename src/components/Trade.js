@@ -6,28 +6,8 @@ import SelectTrade from "./SelectTrade";
 
 export default class Trade extends Component {
   render() {
-    // TODO : Pass these props from user data
-    const {
-      portfolio,
-      symbol,
-      currentPrice,
-      workingCapital,
-      trade,
-      shares
-    } = this.props;
+    const { trade, shares, currentPrice, tradeArray, max } = this.props;
 
-    const buyMax = Math.floor(workingCapital / currentPrice);
-
-    const ownedShares = portfolio.find(stock => stock.symbol === symbol);
-    let tradeArray = ownedShares ? ["Buy", "Sell"] : ["Buy"];
-    const sellMax = ownedShares ? ownedShares.numShares : "";
-    let max = trade === "" ? 0 : trade === "Sell" ? sellMax : buyMax;
-
-    // console.log("trade", this.state.trade);
-    // console.log("tradeArray", tradeArray);
-    // console.log("max", max);
-    // console.log("buyMax", buyMax);
-    // console.log("sellMax", sellMax);
     return (
       <Table>
         <tbody>
@@ -44,8 +24,9 @@ export default class Trade extends Component {
             <td>
               <ShareAmount
                 max={max}
-                handleshares={this.props.handleShares}
                 shares={this.props.shares}
+                decreaseShares={this.props.decreaseShares}
+                incrementShares={this.props.incrementShares}
               />
             </td>
             <td>$ {(shares * currentPrice).toFixed(2)}</td>

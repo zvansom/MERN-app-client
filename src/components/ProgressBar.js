@@ -7,7 +7,6 @@ class ProgressBar extends Component {
     let currentValue =
       Number(this.props.portfolioValue) + Number(this.props.workingCapital);
     let p = (currentValue / Number(this.props.initialCapital) - 1) * 100;
-    console.log("p", p);
     let color = p > 1 ? "#96ceb4" : p === 0 ? "#319cd6" : "#c83349";
     let lossGain =
       p > 1 ? p.toFixed(2) + "%" : p === 0 ? "" : p.toFixed(2) + "%";
