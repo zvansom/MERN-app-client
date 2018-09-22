@@ -8,6 +8,8 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import TradeForm from "./components/TradeForm";
 
+import calculatePortfolio from './Utilities/calculatePortfolio';
+
 import { SERVER_URL } from "./constants/globals";
 import axios from "axios";
 
@@ -47,36 +49,29 @@ class Profile extends Component {
 
   hundleTrade = e => {
     e.preventDefault();
-    console.log(e.target)
+    let symbol = this.state.activeSymbol;
+    let tradeValue = this.state.currentPrice * shares;
+    let newPortfolio = [...this.state.portfolio] || [{}];
+    let newCapital = this.state.workingCapital;
+    const currentPortfolioValue = this.state.portfolioValue;
+    const oldCapital =
+      this.state.workingCapital + Number(currentPortfolioValue);
 
-    // let trade = this.state.trade;
-    // if (!trade) {
-    //   return;
-    // }
-    // let shares = Number(this.state.shares);
-    // let symbol = this.state.activeSymbol;
-    // let tradeValue = this.state.currentPrice * shares;
-    // let newPortfolio = [...this.state.portfolio] || [{}];
-    // let newCapital = this.state.workingCapital;
-    // const currentPortfolioValue = this.state.portfolioValue;
-    // const oldCapital =
-    //   this.state.workingCapital + Number(currentPortfolioValue);
-
-    // [newPortfolio, newCapital] = calculatePortfolio(
-    //   trade,
-    //   shares,
-    //   symbol,
-    //   newPortfolio,
-    //   tradeValue,
-    //   newCapital
-    // );
-    // this.setState({
-    //   portfolio: [...newPortfolio],
-    //   workingCapital: newCapital,
-    //   portfolioValue: (oldCapital - newCapital).toFixed(2),
-    //   shares: 0,
-    //   trade: 'Buy',
-    // });
+    [newPortfolio, newCapital] = calculatePortfolio(
+      trade,
+      shares,
+      symbol,
+      newPortfolio,
+      tradeValue,
+      newCapital
+    );
+    this.setState({
+      portfolio: [...newPortfolio],
+      workingCapital: newCapital,
+      portfolioValue: (oldCapital - newCapital).toFixed(2),
+      shares: 0,
+      trade: 'Buy',
+    });
 
     // axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {
     //   portfolio: newPortfolio,
@@ -175,39 +170,3 @@ class Profile extends Component {
 export default Profile;
 
 // ///// Helpers
-function calculatePortfolio(
-  trade,
-  shares,
-  symbol,
-  newPortfolio,
-  tradeValue,
-  newCapital
-) {
-  var ownedShares = newPortfolio.find(function(stock) {
-    return stock.symbol === symbol;
-  });
-
-  let sell = trade === "Sell";
-  newCapital = sell ? (newCapital += tradeValue) : (newCapital -= tradeValue);
-
-  let newNumShares =
-    sell && ownedShares.numShares > shares
-      ? (ownedShares.numShares -= shares)
-      : ownedShares
-        ? (ownedShares.numShares += shares)
-        : shares;
-
-  if (ownedShares) {
-    ownedShares.numShares = newNumShares;
-  } else {
-    newPortfolio.push({
-      symbol: symbol,
-      numShares: shares
-    });
-  }
-
-  newPortfolio = newPortfolio.filter(function(stock) {
-    return stock.numShares !== 0;
-  });
-  return [newPortfolio, newCapital];
-}
