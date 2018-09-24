@@ -28,20 +28,15 @@ class App extends Component {
     this.getUser();
   };
 
-  // TODO: Break this function out to a seperate js file.
   getUser = () => {
     const token = localStorage.getItem("mernToken");
     if (token) {
-      // ! testing console log
-      console.log("token found in LS", token);
       // There is a token in localStorage. Try to validate it!
       axios
         .post(SERVER_URL + "/auth/me/from/token", {
           headers: { Authorization: `Bearer ${token}` }
         })
         .then(response => {
-          // ! testing console log
-          //console.log("SUCCESS", response);
           this.setState({
             user: response.data.user,
             checkLogin: true
@@ -57,9 +52,7 @@ class App extends Component {
           });
         });
     } else {
-      // ! testing console log
       // TODO: Make pretty alert to user to re-login
-      console.log("No token was found");
       this.setState({
         user: null,
         checkLogin: true
