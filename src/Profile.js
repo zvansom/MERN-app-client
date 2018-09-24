@@ -9,10 +9,7 @@ import StockTable from "./components/StockTable";
 import LineChart from "./chart/LineChart";
 import TradeForm from "./components/TradeForm";
 
-import { calculatePortfolio } from './Utilities/calculatePortfolio';
-
-
-import { SERVER_URL, STARTING_CAPITAL } from "./constants/globals";
+  import { SERVER_URL, STARTING_CAPITAL } from "./constants/globals";
 import axios from "axios";
 
 class Profile extends Component {
@@ -120,7 +117,7 @@ class Profile extends Component {
   async componentDidMount() {
     if (this.props.checkLogin && this.props.user) {
       const { workingCapital, portfolio } = this.props.user;
-      let currentValues = await portfolio.map(stock =>
+      await portfolio.map(stock =>
         getCurrentValue(stock).then(res => {
           let currentPortfolio = this.state.portfolioValue;
           currentPortfolio += res.price * res.numShares;
@@ -158,7 +155,7 @@ class Profile extends Component {
     } else if (!this.props.user) {
       return <Redirect to="/" />;
     } else {
-      const { activeSymbol, currentPrice, tradeType, shares, portfolio } = this.state;
+      const { activeSymbol, currentPrice, tradeType, shares } = this.state;
 
       return (
         <div>
@@ -190,5 +187,3 @@ class Profile extends Component {
 }
 
 export default Profile;
-
-// ///// Helpers
