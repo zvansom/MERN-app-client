@@ -12,10 +12,8 @@ import TradeForm from "./components/TradeForm";
 import { calculatePortfolio } from './Utilities/calculatePortfolio';
 
 
-import { SERVER_URL } from "./constants/globals";
+import { SERVER_URL, STARTING_CAPITAL } from "./constants/globals";
 import axios from "axios";
-
-const INITIALCAPITAL = 100000;
 
 class Profile extends Component {
   constructor(props) {
@@ -27,21 +25,21 @@ class Profile extends Component {
       activeSymbol: "ATVI",
       portfolioValue: 0,
       userOwnsIndex: null,
-      trade: 'Buy',
+      tradeType: 'Buy',
       shares: 0
     };
   }
 
   handleTradeSelection = e => {
     if (this.state.userOwnsIndex >= 0) {
-      this.setState({ trade: e.target.value});
+      this.setState({ tradeType: e.target.value});
     }
   };
 
   incrementShares = e => {
     const { shares, currentPrice, workingCapital, portfolio, userOwnsIndex } = this.state;
     e.preventDefault();
-    if ( this.state.trade === 'Sell' ) {
+    if ( this.state.tradeType === 'Sell' ) {
       // Prevent user from selling more shares then they own
       if ( portfolio[userOwnsIndex].numShares >= shares ) {
         this.setState({ shares: this.state.shares + 1 });
@@ -53,7 +51,6 @@ class Profile extends Component {
   };
 
   decreaseShares = e => {
-    e.preventDefault();
     const { shares } = this.state;
     if (shares > 0 ) {
       this.setState({ shares: shares - 1 });
@@ -61,11 +58,10 @@ class Profile extends Component {
   };
 
   handleTrade = e => {
-    console.log('handle trade');
     e.preventDefault();
     // Make sure at least 1 share is being traded.
     if (this.state.shares > 0) {
-      const { shares, trade, activeSymbol, portfolio, userOwnsIndex } = this.state;
+      const { shares, tradeType, activeSymbol, portfolio, userOwnsIndex } = this.state;
       
       // Make new items to be set in state.
       let newPortfolio = [...portfolio];    
@@ -75,7 +71,7 @@ class Profile extends Component {
       // Calculate the trade value
       const tradeValue = this.state.currentPrice * shares;
 
-      if (trade === 'Buy') {
+      if (tradeType === 'Buy') {
 
         // Handle case for user buying more shares of already owned stock
         if (userOwnsIndex >= 0) {
@@ -93,7 +89,7 @@ class Profile extends Component {
         newWorkingCapital -= tradeValue;
         newPortfolioValue += tradeValue;
 
-      } else if (trade === 'Sell') {
+      } else if (tradeType === 'Sell') {
         newPortfolio[userOwnsIndex].numShares -= shares;
 
         // If user has sold all shares of a stock, remove it from the portfolio
@@ -111,7 +107,7 @@ class Profile extends Component {
         portfolioValue: newPortfolioValue,
         workingCapital: newWorkingCapital,
         shares: 0,
-        trade: 'Buy',
+        tradeType: 'Buy',
       });
 
       axios.put(`${SERVER_URL}/users/${this.props.user.id}`, {
@@ -151,7 +147,7 @@ class Profile extends Component {
     this.setState({
       activeSymbol: e.target.dataset.symbol,
       currentPrice: e.target.dataset.price,
-      trade: 'Buy',
+      tradeType: 'Buy',
       userOwnsIndex: this.state.portfolio.findIndex(stock => stock.symbol === e.target.dataset.symbol),
     });
   };
@@ -162,27 +158,14 @@ class Profile extends Component {
     } else if (!this.props.user) {
       return <Redirect to="/" />;
     } else {
-      const {
-        activeSymbol,
-        currentPrice,
-        trade,
-        shares,
-        portfolio
-      } = this.state;
+      const { activeSymbol, currentPrice, tradeType, shares, portfolio } = this.state;
 
-      let buyMax = Math.floor(this.state.workingCapital / currentPrice);
-
-      let ownedShares = portfolio.find(stock => stock.symbol === activeSymbol);
-      const tradeArray = ownedShares ? ["Buy", "Sell"] : ["Buy"];
-      let sellMax = ownedShares ? ownedShares.numShares : "";
-      const max = trade === "" ? 0 : trade === "Sell" ? sellMax : buyMax;
-      //this.setTrademax(max);
       return (
         <div>
           <ProgressBar
             portfolioValue={this.state.portfolioValue}
             workingCapital={this.state.workingCapital}
-            initialCapital={INITIALCAPITAL}
+            initialCapital={STARTING_CAPITAL}
           />
           <p>
             Portfolio Value <b>${this.state.portfolioValue}</b> | Cash on hand{" "}
@@ -191,7 +174,7 @@ class Profile extends Component {
           <LineChart symbol={activeSymbol} />
           <TradeForm
             userOwns={this.state.userOwnsIndex}
-            trade={trade}
+            trade={tradeType}
             handleTradeSelection={this.handleTradeSelection}
             shares={shares}
             currentPrice={currentPrice}
